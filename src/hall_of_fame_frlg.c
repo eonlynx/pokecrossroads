@@ -423,7 +423,7 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
     u16 i;
     struct HallofFameTeam *lastSavedTeam = gHoFSaveBuffer;
 
-    if (!gHasHallOfFameRecords)
+    if (!gHasHallOfFameRecordsFrlg)
     {
         memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
     }

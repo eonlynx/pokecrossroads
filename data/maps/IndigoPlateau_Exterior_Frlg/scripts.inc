@@ -77,7 +77,7 @@ IndigoPlateau_Exterior_EventScript_Credits::
 	setvar VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 0
 	removeobject LOCALID_CREDITS_RIVAL
 	removeobject LOCALID_CREDITS_PROF_OAK
-	special CB2_StartCreditsSequence
+	special CB2_StartCreditsSequenceFrlg
 	waitstate
 	releaseall
 	end

@@ -1213,10 +1213,11 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 
 bool8 ShouldEggHatch(void)
 {
-#if IS_FRLG
-    if (GetBoxMonData(&gSaveBlock1Ptr->route5DayCareMon.mon, MON_DATA_SANITY_HAS_SPECIES))
-        gSaveBlock1Ptr->route5DayCareMon.steps++;
-#endif
+    if (isFrlg)
+    {
+        if (GetBoxMonData(&gSaveBlock1Ptr->route5DayCareMon.mon, MON_DATA_SANITY_HAS_SPECIES))
+            gSaveBlock1Ptr->route5DayCareMon.steps++;
+    }
     return TryProduceOrHatchEgg(&gSaveBlock1Ptr->daycare);
 }
 
@@ -1610,46 +1611,46 @@ static u8 ModifyBreedingScoreForOvalCharm(u8 score)
 
 void PutMonInRoute5Daycare(void)
 {
-#if IS_FRLG
-    u8 monIdx = GetCursorSelectionMonId();
-    StorePokemonInDaycare(&gPlayerParty[monIdx], &gSaveBlock1Ptr->route5DayCareMon);
-#endif
+    if (isFrlg)
+    {
+        u8 monIdx = GetCursorSelectionMonId();
+        StorePokemonInDaycare(&gPlayerParty[monIdx], &gSaveBlock1Ptr->route5DayCareMon);
+    }
 }
 
 void GetCostToWithdrawRoute5DaycareMon(void)
 {
-#if IS_FRLG
-    u16 cost = GetDaycareCostForSelectedMon(&gSaveBlock1Ptr->route5DayCareMon);
-#else
-    u16 cost = 100;
-#endif
+    u16 cost;
+    if (isFrlg)
+        cost = GetDaycareCostForSelectedMon(&gSaveBlock1Ptr->route5DayCareMon);
+    else
+        cost = 100;
     gSpecialVar_0x8005 = cost;
 }
 
 bool8 IsThereMonInRoute5Daycare(void)
 {
-#if IS_FRLG
-    if (GetBoxMonData(&gSaveBlock1Ptr->route5DayCareMon.mon, MON_DATA_SPECIES) != SPECIES_NONE)
-        return TRUE;
-#endif
+    if (isFrlg)
+    {
+        if (GetBoxMonData(&gSaveBlock1Ptr->route5DayCareMon.mon, MON_DATA_SPECIES) != SPECIES_NONE)
+            return TRUE;
+    }
 
     return FALSE;
 }
 
 u8 GetNumLevelsGainedForRoute5DaycareMon(void)
 {
-#if IS_FRLG
-    return GetNumLevelsGainedForDaycareMon(&gSaveBlock1Ptr->route5DayCareMon);
-#else
-    return 0;
-#endif
+    if (isFrlg)
+        return GetNumLevelsGainedForDaycareMon(&gSaveBlock1Ptr->route5DayCareMon);
+    else
+        return 0;
 }
 
 u16 TakePokemonFromRoute5Daycare(void)
 {
-#if IS_FRLG
-    return TakeSelectedPokemonFromDaycare(&gSaveBlock1Ptr->route5DayCareMon);
-#else
-    return SPECIES_NONE;
-#endif
+    if (isFrlg)
+        return TakeSelectedPokemonFromDaycare(&gSaveBlock1Ptr->route5DayCareMon);
+    else
+        return SPECIES_NONE;
 }

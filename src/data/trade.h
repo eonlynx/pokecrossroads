@@ -1066,7 +1066,7 @@ static const struct InGameTrade sIngameTrades[] =
     },
     [INGAME_TRADE_NIDORAN] = 
     {
-#if defined(FIRERED)
+#if defined(FIRERED_INT)
         .nickname = _("MS. NIDO"),
         .species = SPECIES_NIDORAN_F,
         .ivs = {22, 18, 25, 19, 15, 22},
@@ -1114,7 +1114,7 @@ static const struct InGameTrade sIngameTrades[] =
     },
     [INGAME_TRADE_NIDORINOA] = 
     {
-#if defined(FIRERED)
+#if defined(FIRERED_INT)
         .nickname = _("NINA"),
         .species = SPECIES_NIDORINA,
         .ivs = {22, 25, 18, 19, 22, 15},
@@ -1158,7 +1158,7 @@ static const struct InGameTrade sIngameTrades[] =
         .otName = _("HADEN"),
         .otGender = MALE,
         .sheen = 10,
-#if defined(FIRERED)
+#if defined(FIRERED_INT)
         .requestedSpecies = SPECIES_GOLDUCK
 #else
         .requestedSpecies = SPECIES_SLOWBRO

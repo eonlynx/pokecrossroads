@@ -2139,6 +2139,7 @@ static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void)
 void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
 {
     const u8 *name;
+    const u8 *rivalName;
     u8 i;
 
     if (gSaveBlock2Ptr->playerGender == MALE)
@@ -2148,6 +2149,12 @@ void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
         gSaveBlock2Ptr->playerName[i] = name[i];
     gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
+
+    rivalName = COMPOUND_STRING("GREEN");
+    for (i = 0; i < PLAYER_NAME_LENGTH && rivalName[i] != EOS; i++)
+        gSaveBlock1Ptr->rivalName[i] = rivalName[i];
+    for (; i < PLAYER_NAME_LENGTH + 1; i++)
+        gSaveBlock1Ptr->rivalName[i] = EOS;
 }
 
 static void CreateMainMenuErrorWindow(const u8 *str)

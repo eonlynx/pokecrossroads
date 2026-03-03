@@ -1,11 +1,3 @@
-=== TRAINER_NONE ===
-Name: PH
-Class: Pkmn Trainer 1
-Pic: Hiker Frlg
-Gender: Male
-Music: Male
-Double Battle: No
-
 === TRAINER_YOUNGSTER_BEN ===
 Name: BEN
 Class: Youngster Frlg

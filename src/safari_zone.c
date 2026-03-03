@@ -24,9 +24,13 @@ struct PokeblockFeeder
 #define NUM_POKEBLOCK_FEEDERS 10
 
 extern const u8 SafariZone_EventScript_TimesUp[];
+extern const u8 SafariZone_EventScript_TimesUp_Frlg[];
 extern const u8 SafariZone_EventScript_RetirePrompt[];
+extern const u8 SafariZone_EventScript_RetirePrompt_Frlg[];
 extern const u8 SafariZone_EventScript_OutOfBallsMidBattle[];
+extern const u8 SafariZone_EventScript_OutOfBallsMidBattle_Frlg[];
 extern const u8 SafariZone_EventScript_OutOfBalls[];
+extern const u8 SafariZone_EventScript_OutOfBalls_Frlg[];
 
 EWRAM_DATA u8 gNumSafariBalls = 0;
 EWRAM_DATA u16 gSafariZoneStepCounter = 0;
@@ -58,7 +62,7 @@ void EnterSafariMode(void)
     SetSafariZoneFlag();
     ClearAllPokeblockFeeders();
     gNumSafariBalls = 30;
-    if (IS_FRLG)
+    if (isFrlg)
         gSafariZoneStepCounter = 600;
     else
         gSafariZoneStepCounter = 500;
@@ -86,7 +90,10 @@ bool8 SafariZoneTakeStep(void)
     gSafariZoneStepCounter--;
     if (gSafariZoneStepCounter == 0)
     {
-        ScriptContext_SetupScript(SafariZone_EventScript_TimesUp);
+        if (isFrlg)
+            ScriptContext_SetupScript(SafariZone_EventScript_TimesUp_Frlg);
+        else
+            ScriptContext_SetupScript(SafariZone_EventScript_TimesUp);
         return TRUE;
     }
     return FALSE;
@@ -94,7 +101,10 @@ bool8 SafariZoneTakeStep(void)
 
 void SafariZoneRetirePrompt(void)
 {
-    ScriptContext_SetupScript(SafariZone_EventScript_RetirePrompt);
+    if (isFrlg)
+        ScriptContext_SetupScript(SafariZone_EventScript_RetirePrompt_Frlg);
+    else
+        ScriptContext_SetupScript(SafariZone_EventScript_RetirePrompt);
 }
 
 void CB2_EndSafariBattle(void)
@@ -108,14 +118,20 @@ void CB2_EndSafariBattle(void)
     }
     else if (gBattleOutcome == B_OUTCOME_NO_SAFARI_BALLS)
     {
-        RunScriptImmediately(SafariZone_EventScript_OutOfBallsMidBattle);
+        if (isFrlg)
+            RunScriptImmediately(SafariZone_EventScript_OutOfBallsMidBattle_Frlg);
+        else
+            RunScriptImmediately(SafariZone_EventScript_OutOfBallsMidBattle);
         WarpIntoMap();
         gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
         SetMainCallback2(CB2_LoadMap);
     }
     else if (gBattleOutcome == B_OUTCOME_CAUGHT)
     {
-        ScriptContext_SetupScript(SafariZone_EventScript_OutOfBalls);
+        if (isFrlg)
+            ScriptContext_SetupScript(SafariZone_EventScript_OutOfBalls_Frlg);
+        else
+            ScriptContext_SetupScript(SafariZone_EventScript_OutOfBalls);
         ScriptContext_Stop();
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }

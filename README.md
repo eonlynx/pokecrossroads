@@ -1,53 +1,134 @@
-# About `pokeemerald-expansion`
+![Pokémon Crossroads Logo](crossroads_logo.png)
 
-![Gif that shows debugging functionality that is unique to pokeemerald-expansion such as rerolling Trainer ID, Cheat Start, PC from Debug Menu, Debug PC Fill, Pokémon Sprite Visualizer, Debug Warp to Map, and Battle Debug Menu](https://github.com/user-attachments/assets/cf9dfbee-4c6b-4bca-8e0a-07f116ef891c) ![Gif that shows overworld functionality that is unique to pokeemerald-expansion such as indoor running, BW2 style map popups, overworld followers, DNA Splicers, Gen 1 style fishing, OW Item descriptions, Quick Run from Battle, Use Last Ball, Wild Double Battles, and Catch from EXP](https://github.com/user-attachments/assets/383af243-0904-4d41-bced-721492fbc48e) ![Gif that shows off a number of modern Pokémon battle mechanics happening in the pokeemerald-expansion engine: 2 vs 1 battles, modern Pokémon, items, moves, abilities, fully customizable opponents and partners, Trainer Slides, and generational gimmicks](https://github.com/user-attachments/assets/50c576bc-415e-4d66-a38f-ad712f3316be)
+# Pokémon Crossroads
 
-<!-- If you want to re-record or change these gifs, here are some notes that I used: https://files.catbox.moe/05001g.md -->
+**Pokémon Crossroads** is a ROM hack of *Pokémon Emerald* developed by the **Crossroads Dev Team**.  
+It combines the regions of **Hoenn**, **Kanto**, and (in development) **Johto** into one seamless, epic adventure — the kind of ultimate Game Boy Advance experience Game Freak might have created if they had merged these regions back in the day.
 
-**`pokeemerald-expansion`** is a GBA ROM hack base that equips developers with a comprehensive toolkit for creating Pokémon ROM hacks. **`pokeemerald-expansion`** is built on top of [pret's `pokeemerald`](https://github.com/pret/pokeemerald) decompilation project. **It is not a playable Pokémon game on its own.**
+Discussion thread:  
+https://www.pokecommunity.com/threads/pok%C3%A9mon-crossroads-kanto-johto-and-hoenn-joined.536507/
 
-# [Features](FEATURES.md)
+## Beta 1.0 – Now Available! (March 3, 2026)
 
-**`pokeemerald-expansion`** offers hundreds of features from various [core series Pokémon games](https://bulbapedia.bulbagarden.net/wiki/Core_series), along with popular quality-of-life enhancements designed to streamline development and improve the player experience. A full list of those features can be found in [`FEATURES.md`](FEATURES.md).
+The **Beta 1.0** release is live and ready to play.  
+Download the .ups patch file from the [Releases section on GitHub](https://github.com/eonlynx/pokecrossroads/releases).
 
-# [Credits](CREDITS.md)
+![Pokémon Crossroads Layout](crossroads_layout.jpeg)
 
- [![](https://img.shields.io/github/all-contributors/rh-hideout/pokeemerald-expansion/upcoming)](CREDITS.md)
+### Key Features in Beta 1.0
 
-If you use **`pokeemerald-expansion`**, please credit **RHH (Rom Hacking Hideout)**. Optionally, include the version number for clarity.
+- Three fully explorable regions: **Hoenn**, **Kanto**, and the **Sevii Islands**.
+- Dual complete storylines: Play through the full stories of *Pokémon Emerald* and *Pokémon FireRed* — in any order you choose.
+- **16 Gym Badges** total (8 from Hoenn + 8 from Kanto), with a major surprise planned for Beta 2.0.
 
-```
-Based off RHH's pokeemerald-expansion 1.15.0 https://github.com/rh-hideout/pokeemerald-expansion/
-```
+### Known Issues
 
-Please consider [crediting all contributors](CREDITS.md) involved in the project!
+- **Trainer Card**: Kanto badges do not currently appear on your Trainer ID card.
+- **Regional Travel**: Travel between Kanto and Hoenn via the Pokémon Centers in **Viridian City** or **Oldale Town**.
+- **Save Compatibility**: Existing *Pokémon Emerald* save files are **not compatible** due to expanded memory allocation. Old saves are unlikely to ever work.
+- Some specific items ported from *FireRed* are currently non-functional.
 
-# Choosing `pokeemerald` or **`pokeemerald-expansion`**
+### What's Coming in Beta 2.0?
 
-- **`pokeemerald-expansion`** supports multiplayer functionality with other games built on **`pokeemerald-expansion`**. It is not compatible with official Pokémon games.
-- If compatibility with official games is important, use [`pokeemerald`](https://github.com/pret/pokeemerald). Otherwise, we recommend using **`pokeemerald-expansion`**.
-- **`pokeemerald-expansion`** incorporates regular updates from `pokeemerald`, including bug fixes and documentation improvements.
+(Clue [here](https://www.pokecommunity.com/threads/pok%C3%A9mon-crossroads-kanto-johto-and-hoenn-joined.536507/) – keeping the mystery as in the original announcement)
 
-# [Getting Started](INSTALL.md)
+## Story
 
-❗❗ **Important**: Do not use GitHub's "Download Zip" option as it will not include commit history. This is necessary if you want to update or merge other feature branches.
+What if Game Freak had built the ultimate Game Boy Advance Pokémon adventure?
 
-If you're new to git and GitHub, [Team Aqua's Asset Repo](https://github.com/Pawkkie/Team-Aquas-Asset-Repo/) has a [guide to forking and cloning the repository](https://github.com/Pawkkie/Team-Aquas-Asset-Repo/wiki/The-Basics-of-GitHub). Then you can follow one of the following guides:
+**Pokémon Crossroads** lets you step into the shoes of a young trainer journeying across not just Hoenn, but also Kanto and (coming soon) Johto — all connected seamlessly into one grand storyline.  
+Built on the powerful **pokeemerald-expansion** engine, we've integrated systems to bring these worlds to life authentically.
 
-## 📥 [Installing **`pokeemerald-expansion`**](INSTALL.md)
-## 🏗️ [Building **`pokeemerald-expansion`**](INSTALL.md#Building-pokeemerald-expansion)
-## 🚚 [Migrating from **`pokeemerald`**](INSTALL.md#Migrating-from-pokeemerald)
-## 🚀 [Updating **`pokeemerald-expansion`**](INSTALL.md#Updating-pokeemerald-expansion)
+## How to Patch the ROM (Play the Beta)
 
-# [Documentation](https://rh-hideout.github.io/pokeemerald-expansion/)
+You will need a legally obtained copy of **Pokémon Emerald (U)** (USA version, .gba file).
 
-For detailed documentation, visit the [pokeemerald-expansion documentation page](https://rh-hideout.github.io/pokeemerald-expansion/).
+1. Go to: https://www.marcrobledo.com/RomPatcher.js/legacy/
+2. Click "ROM file" and upload your **Pokemon - Emerald Version (U).gba**
+3. Click "Patch file" and upload the **pokemon_crossroads_beta1.0.ups** file from our Releases
+4. Wait for the green checkmark to appear
+5. Click "Apply patch"
+6. The patched ROM (**pokemon_crossroads_beta1.0.gba**) will download automatically
 
-# [Contributions](CONTRIBUTING.md)
-If you are looking to [report a bug](CONTRIBUTING.md#Bug-Report), [open a pull request](CONTRIBUTING.md#Pull-Requests), or [request a feature](CONTRIBUTING.md#Feature-Request), our [`CONTRIBUTING.md`](CONTRIBUTING.md) has guides for each.
+Play the resulting .gba file on your favorite GBA emulator.
 
-# [Community](https://discord.gg/6CzjAG6GZk)
+## Recommended Emulators
 
-[![](https://dcbadge.limes.pink/api/server/6CzjAG6GZk)](https://discord.gg/6CzjAG6GZk)
+- **PC / Mac / Linux**: [mGBA](https://mgba.io/) (highly recommended — best accuracy and debugging)
+- **Android**: Pizza Boy GBA, Lemuroid, or RetroArch (with mGBA core)
+- **iOS**: Delta, RetroArch (with mGBA core), or Ignited
+- **Handhelds** (Steam Deck, Anbernic, etc.): RetroArch with mGBA core
 
-Our community uses the [ROM Hacking Hideout (RHH) Discord server](https://discord.gg/6CzjAG6GZk) to communicate and organize. Most of our discussions take place there, and we welcome anybody to join us!
+## For Developers – How to Compile
+
+This project is based on **pokeemerald-expansion** with custom multi-region features.
+
+### Requirements
+- devkitARM (version 65 or older recommended for compatibility)
+- git, make, python3, and other standard build tools
+
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/eonlynx/pokecrossroads.git
+   cd pokecrossroads
+   ```
+2. (Optional but recommended) Initialize submodules if any are present:
+   ```bash
+   git submodule update --init --recursive
+   ```
+3. Build using the modern compiler:
+   ```bash
+   make modern
+   ```
+   - This produces `poke_crossroads.gba` in the project root.
+   - Use `make clean` first if you want to rebuild from scratch.
+
+For full setup details check [INSTALL.md](INSTALL.md).
+
+**Note**: This project is not yet compatible with the latest Porymap versions. Use **Porymap 5** for mapping work.
+
+## Current Progress
+
+Development is moving steadily!
+
+Completed core systems:
+
+- ✅ Region switching: Seamless transitions between Hoenn, Kanto, and Johto with proper flag handling.
+- ✅ Map integration: All major Kanto overworlds ported and functional with *FireRed* layouts and palettes.
+- ✅ Multi-region minimaps: Each region displays its own map in the AreaNav with correct location names.
+- ✅ Updated Fly system: Respects your current region and available landing points without cross-region bugs.
+
+Current focus: Porting events, scripts, gym logic, dialogues, and cutscenes from Johto and Kanto into the Emerald engine.
+
+**Actively looking for scripters and event designers** familiar with Gen III decompilation!
+
+## Team & Help Wanted
+
+Building a four-region adventure is a massive project.  
+If you're a scripter, mapper, composer, or programmer, we'd love your help.
+
+To contribute:
+- Fork / join the repository: [https://github.com/eonlynx/pokecrossroads](https://github.com/eonlynx/pokecrossroads)
+- Join the discussion: [PokeCommunity Thread](https://www.pokecommunity.com/threads/pok%C3%A9mon-crossroads-kanto-johto-and-hoenn-joined.536507/)
+- Join the community: [Discord Server](https://discord.gg/XXXXXXXXXX)
+
+## Credits
+
+- **Game Base**: pokeemerald-expansion by rh-hideout.
+- **Engine Logic**: cawtds for importing FireRed logic into Emerald.
+- **Travel System**: AsparagusEduardo for fixing Kanto/Hoenn travel.
+- **Sprites**: @h y o for Gold / Ethan sprites.
+- **Community**: Special thanks to the decompilation and ROM hacking communities.
+
+Full and continuously updated credits available on the [GitHub repository](https://github.com/eonlynx/pokecrossroads).
+
+## Reporting Bugs
+
+Please report all issues, glitches, or oddities on the [GitHub Issues page](https://github.com/eonlynx/pokecrossroads/issues).  
+You can also post in the [PokeCommunity thread](https://www.pokecommunity.com/threads/pok%C3%A9mon-crossroads-kanto-johto-and-hoenn-joined.536507/).
+
+Your feedback helps make the project better!
+
+Thanks for playing **Pokémon Crossroads**!  
+Enjoy the journey across the regions!

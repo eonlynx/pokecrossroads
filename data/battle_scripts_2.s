@@ -36,6 +36,7 @@ gBattlescriptsForSafariActions::
 	.4byte BattleScript_ActionWallyThrow
 	.4byte BattleScript_ActionThrowRock
 	.4byte BattleScript_ActionThrowBait
+	.4byte BattleScript_ActionWatchesCarefully_Frlg
 
 BattleScript_ItemEnd:
 	end
@@ -254,9 +255,12 @@ BattleScript_RunByUsingItem::
 BattleScript_ActionWatchesCarefully:
 	printfromtable gSafariReactionStringIds
 	waitmessage B_WAIT_TIME_LONG
-#if IS_FRLG
+	end2
+
+BattleScript_ActionWatchesCarefully_Frlg:
+	printfromtable gSafariReactionStringIds
+	waitmessage B_WAIT_TIME_LONG
 	playanimation BS_OPPONENT1, B_ANIM_SAFARI_REACTION
-#endif
 	end2
 
 BattleScript_ActionGetNear:

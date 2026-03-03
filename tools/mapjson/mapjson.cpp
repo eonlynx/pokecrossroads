@@ -33,6 +33,12 @@ using json11::Json;
 
 #include <filesystem>
 
+#define TRUE  1
+#define FALSE 0
+
+// expansion headers
+#include "../../include/config/frlg.h"
+
 string version;
 // System directory separator
 string sep;
@@ -735,8 +741,8 @@ void process_groups(string groups_filepath, vector<string> &map_filepaths, strin
         }
         string map_name = json_to_string(map_data, "name");
 
-        if ((version == "emerald" && region != "REGION_HOENN")
-         || (version == "firered" && region != "REGION_KANTO")) {
+        if ((version == "emerald" && region != "REGION_HOENN" && !FRLG_INCLUDE_KANTO_MAPS)
+         || (version == "firered" && region != "REGION_KANTO" && !FRLG_INCLUDE_HOENN_MAPS)) {
             invalid_maps.push_back(map_name);
         }
     }
@@ -772,8 +778,8 @@ string generate_layout_headers_text(Json layouts_data) {
         if (layout_version.empty()) {
             layout_version = "emerald";
         }
-        if ((version == "emerald" && layout_version != "emerald")
-         || (version == "firered" && layout_version != "frlg"))
+        if ((version == "emerald" && layout_version != "emerald" && !FRLG_INCLUDE_KANTO_MAPS)
+         || (version == "firered" && layout_version != "frlg" && !FRLG_INCLUDE_HOENN_MAPS))
             continue;
         string layoutName = json_to_string(layout, "name");
         string border_label = layoutName + "_Border";
@@ -827,9 +833,11 @@ string generate_layouts_table_text(Json layouts_data) {
         if (layout_version.empty()) {
             layout_version = "emerald";
         }
-        if ((version == "emerald" && layout_version != "emerald") || (version == "firered" && layout_version != "frlg")) {
+        if ((version == "emerald" && layout_version != "emerald" && !FRLG_INCLUDE_KANTO_MAPS)
+         || (version == "firered" && layout_version != "frlg" && !FRLG_INCLUDE_HOENN_MAPS)) {
             text << "\t.4byte NULL\n";
-        } else {
+        } else
+        {
             string layout_name = json_to_string(layout, "name", true);
             if (layout_name.empty()) layout_name = "NULL";
             text << "\t.4byte " << layout_name << "\n";

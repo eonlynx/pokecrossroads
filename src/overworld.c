@@ -49,6 +49,7 @@
 #include "palette.h"
 #include "play_time.h"
 #include "random.h"
+#include "regions.h"
 #include "roamer.h"
 #include "rotating_gate.h"
 #include "rtc.h"
@@ -668,6 +669,7 @@ static void LoadCurrentMapData(void)
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
     gMapHeader.mapLayout = GetMapLayout(gMapHeader.mapLayoutId);
+    isFrlg = GetCurrentRegion() == REGION_KANTO;
 }
 
 static void LoadSaveblockMapHeader(void)
@@ -1885,7 +1887,7 @@ void CB2_NewGame(void)
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();
-    if (IS_FRLG)
+    if (isFrlg)
         gFieldCallback = FieldCB_WarpExitFadeFromBlack;
     else
         gFieldCallback = ExecuteTruckSequence;

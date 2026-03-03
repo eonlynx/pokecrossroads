@@ -479,15 +479,16 @@ static const u8 *ExpandPlaceholder_KunChan(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
-#if IS_FRLG
-    if (gSaveBlock1Ptr->rivalName[0] != EOS)
-        return gSaveBlock1Ptr->rivalName;
-#endif
+    if (isFrlg)
+    {
+        if (gSaveBlock1Ptr->rivalName[0] != EOS)
+            return gSaveBlock1Ptr->rivalName;
+    }
 
     if (gSaveBlock2Ptr->playerGender == MALE)
-        return (IS_FRLG ? gText_ExpandedPlaceholder_Green : gText_ExpandedPlaceholder_May);
+        return (isFrlg ? gText_ExpandedPlaceholder_Green : gText_ExpandedPlaceholder_May);
     else
-        return (IS_FRLG ? gText_ExpandedPlaceholder_Red : gText_ExpandedPlaceholder_Brendan);
+        return (isFrlg ? gText_ExpandedPlaceholder_Red : gText_ExpandedPlaceholder_Brendan);
 }
 
 static const u8 *ExpandPlaceholder_Version(void)
@@ -527,7 +528,7 @@ static const u8 *ExpandPlaceholder_Groudon(void)
 
 static const u8 *ExpandPlaceholder_Region(void)
 {
-    if (IS_FRLG)
+    if (isFrlg)
         return gText_Kanto;
     else
         return gText_Hoenn;

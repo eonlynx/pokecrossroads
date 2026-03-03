@@ -1,6 +1,7 @@
 #include "global.h"
 #include "main.h"
 #include "credits.h"
+#include "credits_frlg.h"
 #include "event_data.h"
 #include "hall_of_fame.h"
 #include "hall_of_fame_frlg.h"
@@ -24,10 +25,12 @@ int GameClear(void)
     if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
     {
         gHasHallOfFameRecords = TRUE;
+        gHasHallOfFameRecordsFrlg = TRUE;
     }
     else
     {
         gHasHallOfFameRecords = FALSE;
+        gHasHallOfFameRecordsFrlg = FALSE;
         FlagSet(FLAG_SYS_GAME_CLEAR);
     }
 
@@ -102,10 +105,12 @@ bool8 EnterHallOfFame(void)
     if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
     {
         gHasHallOfFameRecords = TRUE;
+        gHasHallOfFameRecordsFrlg = TRUE;
     }
     else
     {
         gHasHallOfFameRecords = FALSE;
+        gHasHallOfFameRecordsFrlg = FALSE;
         FlagSet(FLAG_SYS_GAME_CLEAR);
     }
     if (GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME) == 0)

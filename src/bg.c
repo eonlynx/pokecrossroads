@@ -40,9 +40,7 @@ struct BgConfig2
 static struct BgControl sGpuBgConfigs;
 static struct BgConfig2 sGpuBgConfigs2[NUM_BACKGROUNDS];
 static u32 sDmaBusyBitfield[NUM_BACKGROUNDS];
-#if IS_FRLG
 static u8 gpu_tile_allocation_map_bg[0x100];
-#endif
 
 COMMON_DATA u32 gWindowTileAutoAllocEnabled = 0;
 
@@ -292,57 +290,58 @@ bool32 IsInvalidBg(u32 bg)
 // From FRLG. Dummied out.
 int BgTileAllocOp(int bg, int offset, int count, int mode)
 {
-#if IS_FRLG
-    int start, end;
-    int blockSize;
-    int blockStart;
-    int i;
-
-    switch (mode)
+    if (isFrlg)
     {
-    case 0:
-        start = GetBgControlAttribute(bg, BG_CTRL_ATTR_CHARBASEINDEX) * (BG_CHAR_SIZE / TILE_SIZE_4BPP);
-        end = start + 0x400;
-        if (end > 0x800)
-            end = 0x800;
-        blockSize = 0;
-        blockStart = 0;
-        for (i = start, offset = 0; i < end; i++, offset++)
+        int start, end;
+        int blockSize;
+        int blockStart;
+        int i;
+
+        switch (mode)
         {
-            if (!((gpu_tile_allocation_map_bg[i / 8] >> (i % 8)) & 1))
+        case 0:
+            start = GetBgControlAttribute(bg, BG_CTRL_ATTR_CHARBASEINDEX) * (BG_CHAR_SIZE / TILE_SIZE_4BPP);
+            end = start + 0x400;
+            if (end > 0x800)
+                end = 0x800;
+            blockSize = 0;
+            blockStart = 0;
+            for (i = start, offset = 0; i < end; i++, offset++)
             {
-                if (blockSize)
+                if (!((gpu_tile_allocation_map_bg[i / 8] >> (i % 8)) & 1))
                 {
-                    blockSize++;
-                    if (blockSize == count)
-                        return blockStart;
+                    if (blockSize)
+                    {
+                        blockSize++;
+                        if (blockSize == count)
+                            return blockStart;
+                    }
+                    else
+                    {
+                        blockStart = offset;
+                        blockSize = 1;
+                    }
                 }
                 else
                 {
-                    blockStart = offset;
-                    blockSize = 1;
+                    blockSize = 0;
                 }
             }
-            else
-            {
-                blockSize = 0;
-            }
+            return -1;
+        case 1:
+            start = GetBgControlAttribute(bg, BG_CTRL_ATTR_CHARBASEINDEX) * (BG_CHAR_SIZE / TILE_SIZE_4BPP) + offset;
+            end = start + count;
+            for (i = start; i < end; i++)
+                gpu_tile_allocation_map_bg[i / 8] |= 1 << (i % 8);
+            break;
+        case 2:
+            start = GetBgControlAttribute(bg, BG_CTRL_ATTR_CHARBASEINDEX) * (BG_CHAR_SIZE / TILE_SIZE_4BPP) + offset;
+            end = start + count;
+            for (i = start; i < end; i++)
+                gpu_tile_allocation_map_bg[i / 8] &= ~(1 << (i % 8));
+            break;
         }
-        return -1;
-    case 1:
-        start = GetBgControlAttribute(bg, BG_CTRL_ATTR_CHARBASEINDEX) * (BG_CHAR_SIZE / TILE_SIZE_4BPP) + offset;
-        end = start + count;
-        for (i = start; i < end; i++)
-            gpu_tile_allocation_map_bg[i / 8] |= 1 << (i % 8);
-        break;
-    case 2:
-        start = GetBgControlAttribute(bg, BG_CTRL_ATTR_CHARBASEINDEX) * (BG_CHAR_SIZE / TILE_SIZE_4BPP) + offset;
-        end = start + count;
-        for (i = start; i < end; i++)
-            gpu_tile_allocation_map_bg[i / 8] &= ~(1 << (i % 8));
-        break;
     }
-#endif
     return 0;
 }
 
@@ -358,12 +357,12 @@ void ResetBgsAndClearDma3BusyFlags(u32 enableWindowTileAutoAlloc)
 
     gWindowTileAutoAllocEnabled = enableWindowTileAutoAlloc;
 
-#if IS_FRLG
-    for (i = 0; i < ARRAY_COUNT(gpu_tile_allocation_map_bg); i++)
-    {
-        gpu_tile_allocation_map_bg[i] = 0;
+    if (isFrlg) {
+        for (i = 0; i < ARRAY_COUNT(gpu_tile_allocation_map_bg); i++)
+        {
+            gpu_tile_allocation_map_bg[i] = 0;
+        }
     }
-#endif
 }
 
 void InitBgsFromTemplates(u32 bgMode, const struct BgTemplate *templates, u8 numTemplates)
@@ -394,9 +393,8 @@ void InitBgsFromTemplates(u32 bgMode, const struct BgTemplate *templates, u8 num
             sGpuBgConfigs2[bg].tilemap = NULL;
             sGpuBgConfigs2[bg].bg_x = 0;
             sGpuBgConfigs2[bg].bg_y = 0;
-#if IS_FRLG
-            gpu_tile_allocation_map_bg[(templates[i].charBaseIndex * (BG_CHAR_SIZE / TILE_SIZE_4BPP)) / 8] = 1;
-#endif
+            if (isFrlg)
+                gpu_tile_allocation_map_bg[(templates[i].charBaseIndex * (BG_CHAR_SIZE / TILE_SIZE_4BPP)) / 8] = 1;
         }
     }
 }
@@ -422,9 +420,8 @@ void InitBgFromTemplate(const struct BgTemplate *template)
         sGpuBgConfigs2[bg].tilemap = NULL;
         sGpuBgConfigs2[bg].bg_x = 0;
         sGpuBgConfigs2[bg].bg_y = 0;
-#if IS_FRLG
-        gpu_tile_allocation_map_bg[(template->charBaseIndex * (BG_CHAR_SIZE / TILE_SIZE_4BPP)) / 8] = 1;
-#endif
+        if (isFrlg)
+            gpu_tile_allocation_map_bg[(template->charBaseIndex * (BG_CHAR_SIZE / TILE_SIZE_4BPP)) / 8] = 1;
     }
 }
 

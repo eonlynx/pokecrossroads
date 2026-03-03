@@ -595,8 +595,6 @@ gStdScripts_End::
 	.include "data/maps/Route119_House/scripts.inc"
 	.include "data/maps/Route124_DivingTreasureHuntersHouse/scripts.inc"
 
-.if IS_FRLG
-
 @ FRLG scripts
 	.include "data/maps/BattleColosseum_2P_Frlg/scripts.inc"
 	.include "data/maps/TradeCenter_Frlg/scripts.inc"
@@ -1041,8 +1039,6 @@ gStdScripts_End::
 	.include "data/text/ingame_trade_frlg.inc"
 	.include "data/scripts/flavor_text.inc"
 	.include "data/scripts/pkmn_center_nurse_frlg.inc"
-
-.endif
 
 	.include "data/scripts/std_msgbox.inc"
 	.include "data/scripts/trainer_battle.inc"
@@ -1580,27 +1576,27 @@ EventScript_CableClub_SetVarResult0::
 	return
 
 Common_EventScript_UnionRoomAttendant::
-#if IS_FRLG
-	call CableClub_EventScript_UnionRoomAttendant_Frlg
-#else
 	call CableClub_EventScript_UnionRoomAttendant
-#endif
+	end
+
+Common_EventScript_UnionRoomAttendant_Frlg::
+	call CableClub_EventScript_UnionRoomAttendant_Frlg
 	end
 
 Common_EventScript_WirelessClubAttendant::
-#if IS_FRLG
-	call CableClub_EventScript_WirelessClubAttendant_Frlg
-#else
 	call CableClub_EventScript_WirelessClubAttendant
-#endif
+	end
+
+Common_EventScript_WirelessClubAttendant_Frlg::
+	call CableClub_EventScript_WirelessClubAttendant_Frlg
 	end
 
 Common_EventScript_DirectCornerAttendant::
-#if IS_FRLG
-	call CableClub_EventScript_DirectCornerAttendant_Frlg
-#else
 	call CableClub_EventScript_DirectCornerAttendant
-#endif
+	end
+
+Common_EventScript_DirectCornerAttendant_Frlg::
+	call CableClub_EventScript_DirectCornerAttendant_Frlg
 	end
 
 Common_EventScript_RemoveStaticPokemon::

@@ -14,7 +14,7 @@ static void Task_WaitForPaletteFade(u8);
 
 void AccessHallOfFamePC(void)
 {
-    if (IS_FRLG)
+    if (isFrlg)
         SetMainCallback2(CB2_InitHofPC);
     else
         SetMainCallback2(CB2_DoHallOfFamePC);

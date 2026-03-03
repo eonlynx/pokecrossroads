@@ -3418,7 +3418,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 break;
             case B_TXT_PC_CREATOR_NAME: // lanette pc
                 if (FlagGet(FLAG_SYS_PC_LANETTE))
-                    toCpy = IS_FRLG ? sText_Bills : sText_Lanettes;
+                    toCpy = isFrlg ? sText_Bills : sText_Lanettes;
                 else
                     toCpy = sText_Someones;
                 break;

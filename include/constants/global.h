@@ -23,6 +23,7 @@
 #include "config/debug.h"
 #include "config/dexnav.h"
 #include "config/follower_npc.h"
+#include "config/frlg.h"
 #include "config/general.h"
 #include "config/item.h"
 #include "config/overworld.h"
@@ -65,13 +66,16 @@ enum Language
 #ifdef FIRERED
     #define GAME_VERSION (VERSION_FIRE_RED)
     #define IS_FRLG 1
+    #define FIRERED_INT 1
 #else
     #ifdef LEAFGREEN
     #define GAME_VERSION (VERSION_LEAF_GREEN)
     #define IS_FRLG 1
+    #define LEAFGREEN_INT 1
     #else
     #define GAME_VERSION (VERSION_EMERALD)
     #define IS_FRLG 0
+    #define FIRERED_INT 1
     #endif
 #endif
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)

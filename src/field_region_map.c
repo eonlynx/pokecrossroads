@@ -232,7 +232,7 @@ static void PrintTitleWindowText(void)
 {
     static const u8 FlyPromptText[] = _("{R_BUTTON} FLY");
     const u8 *region;
-    if (IS_FRLG)
+    if (isFrlg)
         region = gText_Kanto;
     else
         region = gText_Hoenn;

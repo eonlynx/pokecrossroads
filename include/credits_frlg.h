@@ -1,7 +1,7 @@
 #ifndef GUARD_CREDITS_FRLG_H
 #define GUARD_CREDITS_FRLG_H
 
-extern bool8 gHasHallOfFameRecords;
+extern bool8 gHasHallOfFameRecordsFrlg;
 
 #define CREDITSOVWLDCMD_FB 0xFB
 #define CREDITSOVWLDCMD_FC 0xFC
@@ -20,6 +20,6 @@ extern bool8 gHasHallOfFameRecords;
     { CREDITSOVWLDCMD_END, CREDITSOVWLDCMD_END, CREDITSOVWLDCMD_END }
 
     
-void CB2_StartCreditsSequence(void);
+void CB2_StartCreditsSequenceFrlg(void);
 
 #endif //GUARD_CREDITS_FRLG_H
