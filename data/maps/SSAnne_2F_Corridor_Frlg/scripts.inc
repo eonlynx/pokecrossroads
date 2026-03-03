@@ -34,9 +34,9 @@ SSAnne_2F_Corridor_EventScript_RivalTrigger::
 	call_if_eq VAR_TEMP_1, 2, SSAnne_2F_Corridor_EventScript_RivalApproachRight
 	msgbox SSAnne_2F_Corridor_Text_RivalIntro
 	setvar VAR_LAST_TALKED, LOCALID_SS_ANNE_RIVAL
-	call_if_eq VAR_STARTER_MON, 2, SSAnne_2F_Corridor_EventScript_RivalSquirtle
-	call_if_eq VAR_STARTER_MON, 1, SSAnne_2F_Corridor_EventScript_RivalBulbasaur
-	call_if_eq VAR_STARTER_MON, 0, SSAnne_2F_Corridor_EventScript_RivalCharmander
+	call_if_eq VAR_STARTER_MON_FRLG, 2, SSAnne_2F_Corridor_EventScript_RivalSquirtle
+	call_if_eq VAR_STARTER_MON_FRLG, 1, SSAnne_2F_Corridor_EventScript_RivalBulbasaur
+	call_if_eq VAR_STARTER_MON_FRLG, 0, SSAnne_2F_Corridor_EventScript_RivalCharmander
 	msgbox SSAnne_2F_Corridor_Text_RivalPostBattle
 	closemessage
 	delay 10

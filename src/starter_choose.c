@@ -364,6 +364,16 @@ u16 GetStarterPokemon_Frlg(u16 chosenStarterId)
     return sStarterMon_Frlg[chosenStarterId];
 }
 
+u16 GetStarterPokemonVoid(void)
+{
+    return GetStarterPokemon(VarGet(VAR_STARTER_MON));
+}
+
+u16 GetStarterPokemonVoid_Frlg(void)
+{
+    return GetStarterPokemon_Frlg(VarGet(VAR_STARTER_MON_FRLG));
+}
+
 static void VblankCB_StarterChoose(void)
 {
     LoadOam();

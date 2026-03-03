@@ -42,9 +42,9 @@ SilphCo_7F_EventScript_RivalScene::
 	call_if_eq VAR_TEMP_1, 1, SilphCo_7F_EventScript_RivalApproachBottom
 	msgbox SilphCo_7F_Text_RivalIntro
 	setvar VAR_LAST_TALKED, LOCALID_SILPH_CO_RIVAL
-	call_if_eq VAR_STARTER_MON, 2, SilphCo_7F_EventScript_RivalSquirtle
-	call_if_eq VAR_STARTER_MON, 1, SilphCo_7F_EventScript_RivalBulbasaur
-	call_if_eq VAR_STARTER_MON, 0, SilphCo_7F_EventScript_RivalCharmander
+	call_if_eq VAR_STARTER_MON_FRLG, 2, SilphCo_7F_EventScript_RivalSquirtle
+	call_if_eq VAR_STARTER_MON_FRLG, 1, SilphCo_7F_EventScript_RivalBulbasaur
+	call_if_eq VAR_STARTER_MON_FRLG, 0, SilphCo_7F_EventScript_RivalCharmander
 	msgbox SilphCo_7F_Text_RivalPostBattle
 	closemessage
 	playbgm MUS_RG_RIVAL_EXIT, 0

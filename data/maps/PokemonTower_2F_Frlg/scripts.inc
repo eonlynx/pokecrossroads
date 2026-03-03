@@ -28,9 +28,9 @@ PokemonTower_2F_EventScript_Rival::
 	waitmovement 0
 	msgbox PokemonTower_2F_Text_RivalIntro
 	setvar VAR_LAST_TALKED, LOCALID_POKEMON_TOWER_RIVAL
-	call_if_eq VAR_STARTER_MON, 2, PokemonTower_2F_EventScript_RivalSquirtle
-	call_if_eq VAR_STARTER_MON, 1, PokemonTower_2F_EventScript_RivalBulbasaur
-	call_if_eq VAR_STARTER_MON, 0, PokemonTower_2F_EventScript_RivalCharmander
+	call_if_eq VAR_STARTER_MON_FRLG, 2, PokemonTower_2F_EventScript_RivalSquirtle
+	call_if_eq VAR_STARTER_MON_FRLG, 1, PokemonTower_2F_EventScript_RivalBulbasaur
+	call_if_eq VAR_STARTER_MON_FRLG, 0, PokemonTower_2F_EventScript_RivalCharmander
 	msgbox PokemonTower_2F_Text_RivalPostBattle
 	closemessage
 	playbgm MUS_RG_RIVAL_EXIT, 0

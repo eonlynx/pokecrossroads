@@ -296,9 +296,9 @@ PalletTown_ProfessorOaksLab_EventScript_RivalBattle::
 	closemessage
 	applymovement LOCALID_OAKS_LAB_PROF_OAK, Common_Movement_FaceDown
 	waitmovement 0
-	goto_if_eq VAR_STARTER_MON, 0, PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleCharmander
-	goto_if_eq VAR_STARTER_MON, 1, PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleBulbasaur
-	goto_if_eq VAR_STARTER_MON, 2, PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleSquirtle
+	goto_if_eq VAR_STARTER_MON_FRLG, 0, PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleCharmander
+	goto_if_eq VAR_STARTER_MON_FRLG, 1, PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleBulbasaur
+	goto_if_eq VAR_STARTER_MON_FRLG, 2, PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleSquirtle
 	end
 
 @ The scripts for the rival approaching the player for battle are a bit bloated because
@@ -1118,7 +1118,7 @@ PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_PALLET_LADY_NOT_BLOCKING_SIGN
 	givemon PLAYER_STARTER_SPECIES, 5
-	copyvar VAR_STARTER_MON, PLAYER_STARTER_NUM
+	copyvar VAR_STARTER_MON_FRLG, PLAYER_STARTER_NUM
 	bufferspeciesname STR_VAR_1, PLAYER_STARTER_SPECIES
 	message PalletTown_ProfessorOaksLab_Text_ReceivedMonFromOak
 	waitmessage
@@ -1130,7 +1130,7 @@ PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	end
 
 EventScript_GiveNicknameToStarter::
-	setvar VAR_0x8004, 0
+	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
 	goto PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
 	end

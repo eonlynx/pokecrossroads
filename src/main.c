@@ -189,6 +189,7 @@ static void InitMainCallbacks(void)
     SetMainCallback2(gInitialMainCB2);
     gSaveBlock2Ptr = &gSaveblock2.block;
     gPokemonStoragePtr = &gPokemonStorage.block;
+    isFrlg = IS_FRLG;
 }
 
 static void CallCallbacks(void)

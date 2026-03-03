@@ -7,9 +7,9 @@ PokemonLeague_ChampionsRoom_Frlg_MapScripts::
 PokemonLeague_ChampionsRoom_OnResume::
 	setvar VAR_0x8004, 4
 	call PokemonLeague_EventScript_DoLightingEffect
-	call_if_eq VAR_STARTER_MON, 2, PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerSquirtle
-	call_if_eq VAR_STARTER_MON, 1, PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerBulbasaur
-	call_if_eq VAR_STARTER_MON, 0, PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerCharmander
+	call_if_eq VAR_STARTER_MON_FRLG, 2, PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerSquirtle
+	call_if_eq VAR_STARTER_MON_FRLG, 1, PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerBulbasaur
+	call_if_eq VAR_STARTER_MON_FRLG, 0, PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerCharmander
 	end
 
 PokemonLeague_ChampionsRoom_EventScript_CheckStopTriggerSquirtle::
@@ -71,7 +71,7 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	applymovement LOCALID_CHAMPIONS_ROOM_PROF_OAK, PokemonLeague_ChampionsRoom_Movement_OakEnter
 	waitmovement 0
 	delay 25
-	specialvar VAR_RESULT, GetStarterPokemon_Frlg
+	specialvar VAR_RESULT, GetStarterPokemonVoid_Frlg
 	bufferspeciesname STR_VAR_1, VAR_RESULT
 	msgbox PokemonLeague_ChampionsRoom_Text_OakCongratulations
 	applymovement LOCALID_CHAMPIONS_ROOM_PROF_OAK, Common_Movement_WalkInPlaceFasterRight
@@ -100,15 +100,15 @@ PokemonLeague_ChampionsRoom_EventScript_QuestLogEnd::
 	end
 
 PokemonLeague_ChampionsRoom_EventScript_Battle::
-	call_if_eq VAR_STARTER_MON, 2, PokemonLeague_ChampionsRoom_EventScript_BattleSquirtle
-	call_if_eq VAR_STARTER_MON, 1, PokemonLeague_ChampionsRoom_EventScript_BattleBulbasaur
-	call_if_eq VAR_STARTER_MON, 0, PokemonLeague_ChampionsRoom_EventScript_BattleCharmander
+	call_if_eq VAR_STARTER_MON_FRLG, 2, PokemonLeague_ChampionsRoom_EventScript_BattleSquirtle
+	call_if_eq VAR_STARTER_MON_FRLG, 1, PokemonLeague_ChampionsRoom_EventScript_BattleBulbasaur
+	call_if_eq VAR_STARTER_MON_FRLG, 0, PokemonLeague_ChampionsRoom_EventScript_BattleCharmander
 	return
 
 PokemonLeague_ChampionsRoom_EventScript_Rematch::
-	call_if_eq VAR_STARTER_MON, 2, PokemonLeague_ChampionsRoom_EventScript_RematchSquirtle
-	call_if_eq VAR_STARTER_MON, 1, PokemonLeague_ChampionsRoom_EventScript_RematchBulbasaur
-	call_if_eq VAR_STARTER_MON, 0, PokemonLeague_ChampionsRoom_EventScript_RematchCharmander
+	call_if_eq VAR_STARTER_MON_FRLG, 2, PokemonLeague_ChampionsRoom_EventScript_RematchSquirtle
+	call_if_eq VAR_STARTER_MON_FRLG, 1, PokemonLeague_ChampionsRoom_EventScript_RematchBulbasaur
+	call_if_eq VAR_STARTER_MON_FRLG, 0, PokemonLeague_ChampionsRoom_EventScript_RematchCharmander
 	return
 
 PokemonLeague_ChampionsRoom_EventScript_Intro::
