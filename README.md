@@ -111,7 +111,7 @@ If you're a scripter, mapper, composer, or programmer, we'd love your help.
 To contribute:
 - Fork / join the repository: [https://github.com/eonlynx/pokecrossroads](https://github.com/eonlynx/pokecrossroads)
 - Join the discussion: [PokeCommunity Thread](https://www.pokecommunity.com/threads/pok%C3%A9mon-crossroads-kanto-johto-and-hoenn-joined.536507/)
-- Join the community: [Discord Server](https://discord.gg/XXXXXXXXXX)
+- Join the community: [Discord Server](https://discord.gg/2NPMFYJV)
 
 ## Credits
 
