@@ -1900,8 +1900,10 @@ static enum TrainerPicID PlayerGetTrainerBackPicId(void)
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
+    else if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED;
     else
-        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_BACK_PIC_PLAYER_FEMALE : TRAINER_BACK_PIC_PLAYER_MALE;
+        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN;
 
     return trainerPicId;
 }

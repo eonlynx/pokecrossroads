@@ -2920,9 +2920,9 @@ void SetBattleTowerLinkPlayerGfx(void)
     for (i = 0; i < 2; i++)
     {
         if (gLinkPlayers[i].gender == MALE)
-            VarSet(VAR_OBJ_GFX_ID_F - i, PLAYER_AVATAR_GFX_MALE_NORMAL);
+            VarSet(VAR_OBJ_GFX_ID_F - i, gSaveBlock2Ptr->playerRegion == REGION_KANTO ? OBJ_EVENT_GFX_RED_NORMAL : OBJ_EVENT_GFX_BRENDAN_NORMAL);
         else
-            VarSet(VAR_OBJ_GFX_ID_F - i, PLAYER_AVATAR_GFX_FEMALE_NORMAL);
+            VarSet(VAR_OBJ_GFX_ID_F - i, gSaveBlock2Ptr->playerRegion == REGION_KANTO ? OBJ_EVENT_GFX_GREEN_NORMAL : OBJ_EVENT_GFX_MAY_NORMAL);
     }
 }
 

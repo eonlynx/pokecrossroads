@@ -36,13 +36,31 @@ EventScript_SomeonesPCBoxFull::
 EventScript_TransferredLanettesPC::
 	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
 	goto_if_eq VAR_RESULT, TRUE, EventScript_LanettesPCBoxFull
+	call_if_unset FLAG_CROSSOVER_IS_FRLG, EventScript_TransferredLanettesPCHoenn
+	call_if_set FLAG_CROSSOVER_IS_FRLG, EventScript_TransferredLanettesPCKanto
+	return
+
+EventScript_TransferredLanettesPCHoenn::
 	msgbox gText_PkmnTransferredLanettesPC, MSGBOX_DEFAULT
+	return
+
+EventScript_TransferredLanettesPCKanto::
+	msgbox gText_PkmnTransferredLanettesPC_Frlg, MSGBOX_DEFAULT
 	return
 
 EventScript_LanettesPCBoxFull::
 	specialvar VAR_RESULT, GetPCBoxToSendMon
 	bufferboxname STR_VAR_3, VAR_RESULT
+	call_if_unset FLAG_CROSSOVER_IS_FRLG, EventScript_LanettesPCBoxFullHoenn
+	call_if_set FLAG_CROSSOVER_IS_FRLG, EventScript_LanettesPCBoxFullKanto
+	return
+
+EventScript_LanettesPCBoxFullHoenn::
 	msgbox gText_PkmnTransferredLanettesPCBoxFull, MSGBOX_DEFAULT
+	return
+
+EventScript_LanettesPCBoxFullKanto::
+	msgbox gText_PkmnTransferredLanettesPCBoxFull_Frlg, MSGBOX_DEFAULT
 	return
 
 Common_EventScript_NoMoreRoomForPokemon::

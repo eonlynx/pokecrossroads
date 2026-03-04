@@ -276,7 +276,7 @@ void Task_HandleExpansionIntro(u8 taskId)
             ResetSpriteData();
             FreeAllSpritePalettes();
             DestroyTask(taskId);
-            if (isFrlg)
+            if (isFrlgInt)
             {
                 SetMainCallback2(CB2_SetUpIntroFrlg);
             }

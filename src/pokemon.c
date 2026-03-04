@@ -5725,7 +5725,13 @@ u16 SpeciesToPokedexNum(u16 species)
     else
     {
         species = SpeciesToRegionalPokedexNum(species);
-        if (species <= REGIONAL_DEX_COUNT)
+        u16 regDexCount;
+        if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+            regDexCount = KANTO_DEX_COUNT;
+        else
+            regDexCount = HOENN_DEX_COUNT;
+
+        if (species <= regDexCount)
             return species;
         return 0xFFFF;
     }

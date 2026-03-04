@@ -279,8 +279,10 @@ static bool8 LoadBattlerSpriteGfx(enum BattlerId battler)
             else
                 BattleLoadSubstituteOrMonSpriteGfx(battler, FALSE);
         }
+        else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT && gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+            DecompressTrainerBackPic((gSaveBlock2Ptr->playerGender == FEMALE) ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED, battler);
         else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT)
-            DecompressTrainerBackPic((gSaveBlock2Ptr->playerGender == FEMALE) ? TRAINER_BACK_PIC_PLAYER_FEMALE : TRAINER_BACK_PIC_PLAYER_MALE, battler);
+            DecompressTrainerBackPic((gSaveBlock2Ptr->playerGender == FEMALE) ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN, battler);
         else if (gBattleTypeFlags & BATTLE_TYPE_CATCH_TUTORIAL && position == B_POSITION_PLAYER_LEFT)
         {
             if (isFrlg)
@@ -332,7 +334,12 @@ void CreateBattlerSprite(enum BattlerId battler)
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT)
         {
-            enum TrainerPicID trainerPicId = (gSaveBlock2Ptr->playerGender == FEMALE) ? TRAINER_BACK_PIC_PLAYER_FEMALE : TRAINER_BACK_PIC_PLAYER_MALE;
+            enum TrainerPicID trainerPicId;
+            if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+                trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED;
+            else
+                trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN;
+
             SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, position);
             gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, 0x50,
                                                 (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 80,

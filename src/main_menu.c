@@ -1076,7 +1076,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
         {
         case ACTION_NEW_GAME:
         default:
-            if (IS_FRLG)
+            if (isFrlgInt)
             {
                 DestroyTask(taskId);
                 FreeAllWindowBuffers();
@@ -1085,12 +1085,14 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 else
                     sCurrItemAndOptionMenuCheck |= OPTION_MENU_FLAG;  // entering the options menu
                 StartNewGameSceneFrlg();
+                gSaveBlock2Ptr->playerRegion = REGION_KANTO;
                 return;
             }
 
             gPlttBufferUnfaded[0] = RGB_BLACK;
             gPlttBufferFaded[0] = RGB_BLACK;
             gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
+            gSaveBlock2Ptr->playerRegion = REGION_HOENN;
             break;
         case ACTION_CONTINUE:
             gPlttBufferUnfaded[0] = RGB_BLACK;
@@ -2152,9 +2154,9 @@ void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
 
     rivalName = COMPOUND_STRING("GREEN");
     for (i = 0; i < PLAYER_NAME_LENGTH && rivalName[i] != EOS; i++)
-        gSaveBlock1Ptr->rivalName[i] = rivalName[i];
+        gSaveBlock2Ptr->rivalName[i] = rivalName[i];
     for (; i < PLAYER_NAME_LENGTH + 1; i++)
-        gSaveBlock1Ptr->rivalName[i] = EOS;
+        gSaveBlock2Ptr->rivalName[i] = EOS;
 }
 
 static void CreateMainMenuErrorWindow(const u8 *str)

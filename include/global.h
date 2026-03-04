@@ -584,7 +584,9 @@ struct RankingHall2P
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
+    u8 rivalName[PLAYER_NAME_LENGTH + 1];
     /*0x08*/ u8 playerGender; // MALE, FEMALE
+    /*0x08*/ u8 playerRegion; // REGION_KANTO, REGION_HOENN
     /*0x09*/ u8 specialSaveWarpFlags;
     /*0x0A*/ u8 playerTrainerId[TRAINER_ID_LENGTH];
     /*0x0E*/ u16 playTimeHours;
@@ -1198,13 +1200,13 @@ struct SaveBlock1
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     u32 towerChallengeId;
     struct TrainerTower trainerTower[NUM_TOWER_CHALLENGE_TYPES];
-    u8 rivalName[PLAYER_NAME_LENGTH + 1];
     struct DaycareMon route5DayCareMon;
     // sizeof: 0x3???
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
 extern u8 isFrlg;
+extern u8 isFrlgInt;
 
 struct MapPosition
 {

@@ -195,8 +195,10 @@ static const u8 *const sTransferredToPCMessages[] =
 {
     gText_PkmnTransferredSomeonesPC,
     gText_PkmnTransferredLanettesPC,
+    gText_PkmnTransferredLanettesPC_Frlg,
     gText_PkmnTransferredSomeonesPCBoxFull,
-    gText_PkmnTransferredLanettesPCBoxFull
+    gText_PkmnTransferredLanettesPCBoxFull,
+    gText_PkmnTransferredLanettesPCBoxFull_Frlg
 };
 
 

@@ -401,10 +401,20 @@ static void RecordedPlayerHandleIntroTrainerBallThrow(enum BattlerId battler)
     enum TrainerPicID trainerPicId;
     const u16 *trainerPal;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
-        trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(battler)].gender == FEMALE ? TRAINER_BACK_PIC_PLAYER_FEMALE : TRAINER_BACK_PIC_PLAYER_MALE;
+    if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+    {
+        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+            trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(battler)].gender == FEMALE ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED;
+        else
+            trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED;
+    }
     else
-        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_BACK_PIC_PLAYER_FEMALE : TRAINER_BACK_PIC_PLAYER_MALE;
+    {
+        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+            trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(battler)].gender == FEMALE ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN;
+        else
+            trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN;
+    }
 
     trainerPal = gTrainerBacksprites[trainerPicId].palette.data;
     BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F9, trainerPal, 24, Intro_TryShinyAnimShowHealthbox);

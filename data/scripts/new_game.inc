@@ -327,3 +327,7 @@ EventScript_ResetAllMapFlagsFrlg::
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
 	end
+
+EventScript_SetFlagIsFrlg::
+	setflag FLAG_CROSSOVER_IS_FRLG
+	end

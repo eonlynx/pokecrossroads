@@ -669,7 +669,10 @@ static void LoadCurrentMapData(void)
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
     gMapHeader.mapLayout = GetMapLayout(gMapHeader.mapLayoutId);
-    isFrlg = GetCurrentRegion() == REGION_KANTO;
+    if (GetCurrentRegion() == REGION_KANTO)
+        isFrlg = 1;
+    else if (GetCurrentRegion() == REGION_HOENN)
+        isFrlg = 0;
 }
 
 static void LoadSaveblockMapHeader(void)

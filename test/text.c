@@ -798,8 +798,10 @@ TEST("Battle strings fit on the battle message window")
     // Buffer Box name to STR_VAR_1 and STR_VAR_3, Nickname to STR_VAR_2
     case STRINGID_PKMNTRANSFERREDSOMEONESPC:
     case STRINGID_PKMNTRANSFERREDLANETTESPC:
+    case STRINGID_PKMNTRANSFERREDLANETTESPC_FRLG:
     case STRINGID_PKMNBOXSOMEONESPCFULL:
     case STRINGID_PKMNBOXLANETTESPCFULL:
+    case STRINGID_PKMNBOXLANETTESPCFULL_FRLG:
         StringCopy(gStringVar1, boxName);
         StringCopy(gStringVar2, nickname);
         StringCopy(gStringVar3, boxName);

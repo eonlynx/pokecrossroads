@@ -47,11 +47,16 @@ EventScript_AccessSomeonesPC::
 	return
 
 EventScript_AccessLanettesPC::
-#if IS_FRLG
-	msgbox gText_AccessedBillsPC, MSGBOX_DEFAULT
-#else
+	call_if_unset FLAG_CROSSOVER_IS_FRLG, EventScript_AccessLanettesPCHoenn
+	call_if_set FLAG_CROSSOVER_IS_FRLG, EventScript_AccessLanettesPCKanto
+	return
+
+EventScript_AccessLanettesPCHoenn::
 	msgbox gText_AccessedLanettesPC, MSGBOX_DEFAULT
-#endif
+	return
+
+EventScript_AccessLanettesPCKanto::
+	msgbox gText_AccessedBillsPC, MSGBOX_DEFAULT
 	return
 
 EventScript_TurnOffPC::

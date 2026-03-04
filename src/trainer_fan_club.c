@@ -293,7 +293,7 @@ static void BufferFanClubTrainerName(struct LinkBattleRecords *linkRecords, u8 w
         {
         case 0:
             if (isFrlg)
-                StringCopy(gStringVar1, gSaveBlock1Ptr->rivalName);
+                StringCopy(gStringVar1, gSaveBlock2Ptr->rivalName);
             else
             {
                 if (gSaveBlock2Ptr->playerGender == MALE)
@@ -310,7 +310,7 @@ static void BufferFanClubTrainerName(struct LinkBattleRecords *linkRecords, u8 w
             break;
         default:
             if (isFrlg)
-                StringCopy(gStringVar1, gSaveBlock1Ptr->rivalName);
+                StringCopy(gStringVar1, gSaveBlock2Ptr->rivalName);
             else
             {
                 if (gSaveBlock2Ptr->playerGender == MALE)
@@ -346,7 +346,7 @@ static void BufferFanClubTrainerName(u8 whichLinkTrainer, u8 whichNPCTrainer)
     case 0:
     default:
         if (isFrlg) {
-            StringCopy(gStringVar1, gSaveBlock1Ptr->rivalName);
+            StringCopy(gStringVar1, gSaveBlock2Ptr->rivalName);
             break;
         }
     case 1:

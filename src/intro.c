@@ -1024,7 +1024,9 @@ void MainCB2_Intro(void)
     AnimateSprites();
     BuildOamBuffer();
     UpdatePaletteFade();
-    if (gMain.newKeys != 0 && !gPaletteFade.active)
+    if (JOY_NEW(SELECT_BUTTON))
+        SetMainCallback2(CB2_GoToCopyrightScreenForce_Frlg);
+    else if (gMain.newKeys != 0 && !gPaletteFade.active)
         SetMainCallback2(MainCB2_EndIntro);
     else if (gIntroFrameCounter != -1)
         gIntroFrameCounter++;
@@ -1050,7 +1052,7 @@ static void SerialCB_CopyrightScreen(void)
 
 static u8 SetUpCopyrightScreen(void)
 {
-    if (IS_FRLG)
+    if (isFrlgInt)
         return SetUpCopyrightScreenFrlg();
 
     switch (gMain.state)
@@ -1143,6 +1145,7 @@ void CB2_InitCopyrightScreenAfterBootup(void)
         ResetMenuAndMonGlobals();
         Save_ResetSaveCounters();
         LoadGameSave(SAVE_NORMAL);
+        SetInitialGame();
         if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
             Sav2_ClearSetDefault();
         SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
@@ -1153,6 +1156,13 @@ void CB2_InitCopyrightScreenAfterBootup(void)
 void CB2_InitCopyrightScreenAfterTitleScreen(void)
 {
     SetUpCopyrightScreen();
+}
+
+void SetInitialGame(void)
+{
+    u8 startFrlg = gSaveBlock2Ptr->playerRegion == REGION_KANTO;
+    isFrlg = startFrlg;
+    isFrlgInt = startFrlg;
 }
 
 #define sBigDropSpriteId data[0]

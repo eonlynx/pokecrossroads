@@ -10805,8 +10805,10 @@ static bool32 CriticalCapture(u32 odds)
     if (B_CRITICAL_CAPTURE == FALSE)
         return FALSE;
 
-    if (B_CRITICAL_CAPTURE_LOCAL_DEX == TRUE)
-        totalDexCount = REGIONAL_DEX_COUNT;
+    if (B_CRITICAL_CAPTURE_LOCAL_DEX == TRUE && gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+        totalDexCount = KANTO_DEX_COUNT;
+    else if (B_CRITICAL_CAPTURE_LOCAL_DEX == TRUE)
+        totalDexCount = HOENN_DEX_COUNT;
     else
         totalDexCount = NATIONAL_DEX_COUNT;
 

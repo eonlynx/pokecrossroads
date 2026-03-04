@@ -1342,8 +1342,10 @@ extern const u8 gText_Love[];
 // battle message
 extern const u8 gText_PkmnTransferredSomeonesPCBoxFull[];
 extern const u8 gText_PkmnTransferredLanettesPCBoxFull[];
+extern const u8 gText_PkmnTransferredLanettesPCBoxFull_Frlg[];
 extern const u8 gText_PkmnTransferredSomeonesPC[];
 extern const u8 gText_PkmnTransferredLanettesPC[];
+extern const u8 gText_PkmnTransferredLanettesPC_Frlg[];
 extern const u8 gText_PkmnSentToPCAfterCatch[];
 
 // hall of fame

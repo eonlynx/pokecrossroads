@@ -21,6 +21,7 @@
 #include "scanline_effect.h"
 #include "sound.h"
 #include "task.h"
+#include "title_screen.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
@@ -495,6 +496,10 @@ static void Task_TitleScreenMain(u8 taskId)
         SetPalOnOrCreateBlankSprite(tHasCreatedBlankSprite);
         SetTitleScreenScene(data, TITLESCREENSCENE_RUN);
     }
+    else if (JOY_NEW(SELECT_BUTTON))
+    {
+        SetMainCallback2(CB2_GoToCopyrightScreenForce);
+    }
     else
         sSceneFuncs[tSceneNum](data);
 }
@@ -684,6 +689,10 @@ static void SetTitleScreenScene_Run(s16 *data)
         else if (JOY_NEW(A_BUTTON | START_BUTTON))
         {
             SetTitleScreenScene(data, TITLESCREENSCENE_CRY);
+        }
+        else if (JOY_NEW(SELECT_BUTTON))
+        {
+            SetMainCallback2(CB2_GoToCopyrightScreenForce);
         }
         else if (!FuncIsActiveTask(Task_TitleScreenTimer))
         {
