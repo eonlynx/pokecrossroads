@@ -1334,7 +1334,7 @@
 #define FLAG_BADGE06_GET                                            (SYS_FLAGS + 0x25)
 #define FLAG_BADGE07_GET                                            (SYS_FLAGS + 0x26)
 #define FLAG_BADGE08_GET                                            (SYS_FLAGS + 0x27)
-#define NUM_BADGES                                                  (1 + FLAG_BADGE08_GET - FLAG_BADGE01_GET)
+#define NUM_BADGES 													(1 + FLAG_BADGE08_GET - FLAG_BADGE01_GET)
 
 #define FLAG_SYS_POKEMON_GET                                        (SYS_FLAGS + 0x28)
 #define FLAG_SYS_POKEDEX_GET                                        (SYS_FLAGS + 0x29)
