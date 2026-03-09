@@ -290,8 +290,8 @@ static const u8 sTrainerPicOffset[2][GENDER_COUNT][2] =
 {
     // Kanto
     {
-        [MALE]   = {13, 4},
-        [FEMALE] = {13, 4}
+        [MALE]   = {1, 0},
+        [FEMALE] = {1, 0}
     },
     // Hoenn
     {
@@ -1923,24 +1923,38 @@ static u8 VersionToCardType(enum GameVersion version)
         return CARD_TYPE_RS;
 }
 
+static u8 GetPlayerTrainerCardFacilityClass(void)
+{
+    if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+        return gSaveBlock2Ptr->playerGender == FEMALE ? FACILITY_CLASS_LEAF : FACILITY_CLASS_RED;
+    else
+        return gSaveBlock2Ptr->playerGender == FEMALE ? FACILITY_CLASS_MAY : FACILITY_CLASS_BRENDAN;
+}
+
 static void CreateTrainerCardTrainerPic(void)
 {
     if (InUnionRoom() == TRUE && gReceivedRemoteLinkPlayers == 1)
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
-                    TRUE,
-                    sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
-                    sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
-                    8,
-                    WIN_TRAINER_PIC);
+        CreateTrainerCardTrainerPicSprite(
+            FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
+            TRUE,
+            sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
+            sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
+            8,
+            WIN_TRAINER_PIC
+        );
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender]),
-                    TRUE,
-                    sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
-                    sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
-                    8,
-                    WIN_TRAINER_PIC);
+        u8 regionIndex = (gSaveBlock2Ptr->playerRegion == REGION_KANTO) ? 0 : 1;
+
+        CreateTrainerCardTrainerPicSprite(
+            FacilityClassToPicIndex(GetPlayerTrainerCardFacilityClass()),
+            TRUE,
+            sTrainerPicOffset[regionIndex][gSaveBlock2Ptr->playerGender][0],
+            sTrainerPicOffset[regionIndex][gSaveBlock2Ptr->playerGender][1],
+            8,
+            WIN_TRAINER_PIC
+        );
     }
 }
