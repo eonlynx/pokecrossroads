@@ -12425,6 +12425,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggMoveLearnset = sOnixEggMoveLearnset,
     #if P_GEN_2_CROSS_EVOS
         .evolutions = EVOLUTION({EVO_TRADE, 0, SPECIES_STEELIX, CONDITIONS({IF_HOLD_ITEM, ITEM_METAL_COAT})},
+								{EVO_ITEM, ITEM_LINKING_CORD, SPECIES_SCIZOR, CONDITIONS({IF_HOLD_ITEM, ITEM_METAL_COAT})},
                                 {EVO_ITEM, ITEM_METAL_COAT, SPECIES_STEELIX}),
     #endif
     },
@@ -15379,6 +15380,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sSeadraTeachableLearnset,
     #if P_GEN_2_CROSS_EVOS
         .evolutions = EVOLUTION({EVO_TRADE, 0, SPECIES_KINGDRA, CONDITIONS({IF_HOLD_ITEM, ITEM_DRAGON_SCALE})},
+								{EVO_ITEM, ITEM_LINKING_CORD, SPECIES_SCIZOR, CONDITIONS({IF_HOLD_ITEM, ITEM_DRAGON_SCALE})},
                                 {EVO_ITEM, ITEM_DRAGON_SCALE, SPECIES_KINGDRA}),
     #endif
     },
@@ -16236,6 +16238,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .evolutions = EVOLUTION(
                             #if P_GEN_2_CROSS_EVOS
                                 {EVO_TRADE, 0, SPECIES_SCIZOR, CONDITIONS({IF_HOLD_ITEM, ITEM_METAL_COAT})},
+								{EVO_ITEM, ITEM_LINKING_CORD, SPECIES_SCIZOR, CONDITIONS({IF_HOLD_ITEM, ITEM_METAL_COAT})},
                                 {EVO_ITEM, ITEM_METAL_COAT, SPECIES_SCIZOR}
                             #if P_GEN_8_CROSS_EVOS
                                 ,
@@ -18812,6 +18815,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sPorygonTeachableLearnset,
     #if P_GEN_2_CROSS_EVOS
         .evolutions = EVOLUTION({EVO_TRADE, 0, SPECIES_PORYGON2, CONDITIONS({IF_HOLD_ITEM, ITEM_UPGRADE})},
+								{EVO_ITEM, ITEM_LINKING_CORD, SPECIES_SCIZOR, CONDITIONS({IF_HOLD_ITEM, ITEM_UPGRADE})},
                                 {EVO_ITEM, ITEM_UPGRADE, SPECIES_PORYGON2}),
     #endif
     },
