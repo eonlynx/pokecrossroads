@@ -1732,3 +1732,33 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/dexnav.inc"
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/apricorn_tree.inc"
+
+Text_WhereWouldYouLikeToFly::
+    .string "Where would you like to fly?$"
+
+EventScript_UseFlightCall::
+    lockall
+    message Text_WhereWouldYouLikeToFly
+    waitmessage
+    multichoice 0, 0, MULTI_FLIGHTCALL_REGIONS, FALSE
+    switch VAR_RESULT
+    case 0, EventScript_FlightCall_Kanto
+    case 1, EventScript_FlightCall_Hoenn
+    case 2, EventScript_FlightCall_Cancel
+    end
+
+EventScript_FlightCall_Kanto::
+    special Special_FlightCallKanto
+    waitstate
+    releaseall
+    end
+
+EventScript_FlightCall_Hoenn::
+    special Special_FlightCallHoenn
+    waitstate
+    releaseall
+    end
+
+EventScript_FlightCall_Cancel::
+    releaseall
+    end

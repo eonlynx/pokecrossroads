@@ -3551,8 +3551,15 @@ static void FlyOutFieldEffect_ShowMon(struct Task *task)
     {
         task->tState++;
         gFieldEffectArguments[0] = task->tMonId;
+
         if (!gSkipShowMonAnim)
+        {
             FieldEffectStart(FLDEFF_FIELD_MOVE_SHOW_MON_INIT);
+        }
+        else
+        {
+            gSkipShowMonAnim = FALSE;
+        }
     }
 }
 

@@ -48,6 +48,12 @@
 #include "constants/items.h"
 #include "constants/songs.h"
 
+// Flight Call function
+extern const u8 EventScript_UseFlightCall[];
+EWRAM_DATA bool8 gFlightCallFromBag = FALSE;
+static void ItemUseOnFieldCB_FlightCall(u8 taskId);
+void ItemUseOutOfBattle_FlightCall(u8 taskId);
+
 static void SetUpItemUseCallback(u8);
 static void FieldCB_UseItemOnField(void);
 static void Task_CallItemUseOnFieldCallback(u8);
@@ -173,6 +179,21 @@ static void Task_CallItemUseOnFieldCallback(u8 taskId)
 {
     if (IsWeatherNotFadingIn() == 1)
         sItemUseOnFieldCB(taskId);
+}
+
+//Flight Call function
+static void ItemUseOnFieldCB_FlightCall(u8 taskId)
+{
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(EventScript_UseFlightCall);
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_FlightCall(u8 taskId)
+{
+    gFlightCallFromBag = TRUE;
+    sItemUseOnFieldCB = ItemUseOnFieldCB_FlightCall;
+    SetUpItemUseOnFieldCallback(taskId);
 }
 
 static void Task_PartyMenuItemUseFromField(u8 taskId)

@@ -89,6 +89,8 @@
 #define ELEVATOR_WINDOW_HEIGHT 3
 #define ELEVATOR_LIGHT_STAGES  3
 
+void SetForcedFlightRegion(s8 region);
+
 EWRAM_DATA bool8 gBikeCyclingChallenge = FALSE;
 EWRAM_DATA u8 gBikeCollisions = 0;
 static EWRAM_DATA u32 sBikeCyclingTimer = 0;
@@ -5748,6 +5750,21 @@ void UpdateTrainerCardPhotoIcons(void)
     VarSet(VAR_TRAINER_CARD_MON_ICON_5, SpeciesToMailSpecies(species[4], personality[4]));
     VarSet(VAR_TRAINER_CARD_MON_ICON_6, SpeciesToMailSpecies(species[5], personality[5]));
     VarSet(VAR_TRAINER_CARD_MON_ICON_TINT_IDX, gSpecialVar_0x8004);
+}
+
+//Flight Call function
+void Special_FlightCallKanto(void)
+{
+    SetForcedFlightRegion(REGION_MAP_KANTO);
+    CleanupOverworldWindowsAndTilemaps();
+    SetMainCallback2(CB2_OpenFlyMap);
+}
+
+void Special_FlightCallHoenn(void)
+{
+    SetForcedFlightRegion(REGION_MAP_HOENN);
+    CleanupOverworldWindowsAndTilemaps();
+    SetMainCallback2(CB2_OpenFlyMap);
 }
 
 u16 StickerManGetBragFlags(void)

@@ -462,8 +462,6 @@
 #define FLAG_REGISTERED_DRAKE                (TRAINER_REGISTERED_FLAGS_START + REMATCH_DRAKE)
 #define FLAG_REGISTERED_WALLACE              (TRAINER_REGISTERED_FLAGS_START + REMATCH_WALLACE)
 
-#define FLAG_UNUSED_0x1AA                    0x1AA // Unused Flag
-#define FLAG_UNUSED_0x1AB                    0x1AB // Unused Flag
 
 #define FLAG_DEFEATED_DEOXYS                 0x1AC
 #define FLAG_BATTLED_DEOXYS                  0x1AD
@@ -2374,6 +2372,10 @@
 #define FLAG_SYS_SEVII_MAP_4567                                     0x160
 #define FLAG_SYS_GOT_BERRY_POUCH                                    0x161
 #define FLAG_SYS_UNLOCKED_TANOBY_RUINS                              0x162
+
+// Flight Call item scripts
+#define FLAG_GOT_SS_TICKET_FROM_OAK    0x1AA        //Teleport Item
+#define FLAG_HIDE_ROUTE102_PROF_OAK    0x1AB
 
 // World Map Flags
 #define FLAG_WORLD_MAP_PALLET_TOWN                                  0xA7B

@@ -1133,6 +1133,14 @@ struct MultichoiceListStruct
     u8 count;
 };
 
+//Flight Call function
+static const struct MenuAction sMultichoiceList_FlightCallRegions[] =
+{
+    { COMPOUND_STRING("Kanto") },
+    { COMPOUND_STRING("Hoenn") },
+    { COMPOUND_STRING("Cancel") },
+};
+
 static const struct MultichoiceListStruct sMultichoiceLists[] =
 {
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
@@ -1294,6 +1302,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_HOF_VICTORIES_QUIT]                         = MULTICHOICE(sMultichoiceList_HOF_Victories_Quit),
     [MULTI_EGGS_VICTORIES_QUIT]                        = MULTICHOICE(sMultichoiceList_Eggs_Victories_Quit),
     [MULTI_HOF_EGGS_VICTORIES_QUIT]                    = MULTICHOICE(sMultichoiceList_HOF_Eggs_Victories_Quit),
+	[MULTI_FLIGHTCALL_REGIONS]                           = MULTICHOICE(sMultichoiceList_FlightCallRegions),
 };
 
 const u8 *const gStdStrings[] =

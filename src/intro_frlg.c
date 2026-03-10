@@ -1090,11 +1090,15 @@ static void Task_CallIntroCallback(u8 taskId)
 {
     struct IntroSequenceData * ptr = (void *)GetWordTaskArg(taskId, 0);
 
+	if (JOY_NEW(SELECT_BUTTON))
+    {
+        SetMainCallback2(CB2_GoToCopyrightScreenForce);
+        return;
+    }
+
     // End intro early if player presses A/Start
     if (JOY_NEW(A_BUTTON | START_BUTTON) && ptr->callback != IntroCB_ExitToTitleScreen)
         SetIntroCB(ptr, IntroCB_ExitToTitleScreen);
-    else if (JOY_NEW(SELECT_BUTTON))
-        SetMainCallback2(CB2_GoToCopyrightScreenForce);
 
     ptr->callback(ptr);
 }

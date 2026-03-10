@@ -15828,6 +15828,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPic = gItemIcon_PokeshiDoll,
         .iconPalette = gItemIconPalette_PokeshiDoll,
     },
+	
+	[ITEM_FLIGHT_CALL] =
+	{
+		.name = ITEM_NAME("Flight Call"),
+		.price = 0,
+		.description = COMPOUND_STRING(
+			"Use this item to call\n"
+			"a flight service for\n"
+			"travel."),
+		.importance = 1,
+		.pocket = POCKET_KEY_ITEMS,
+		.type = ITEM_USE_FIELD,
+		.fieldUseFunc = ItemUseOutOfBattle_FlightCall,
+		.iconPic = gItemIcon_VsSeeker,
+		.iconPalette = gItemIconPalette_VsSeeker,
+	},
 };
 
 #undef ITEM_NAME

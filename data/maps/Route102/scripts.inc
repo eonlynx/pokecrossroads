@@ -107,3 +107,57 @@ Route102_Text_RouteSignOldale:
 Route102_Text_RouteSignPetalburg:
 	.string "ROUTE 102\n"
 	.string "{LEFT_ARROW} PETALBURG CITY$"
+
+Route102_EventScript_ProfOak::
+	lock
+	faceplayer
+	checkflag FLAG_GOT_SS_TICKET_FROM_OAK
+	goto_if TRUE, Route102_EventScript_ProfOak_Done
+
+	msgbox Route102_Text_Kanto, MSGBOX_DEFAULT
+	giveitem ITEM_FLIGHT_CALL, 1
+	setflag FLAG_WORLD_MAP_PALLET_TOWN
+	setflag FLAG_GOT_SS_TICKET_FROM_OAK
+	msgbox Route102_Text_ReceivedTicket, MSGBOX_DEFAULT
+	msgbox Route102_Text_KantoAfterGift, MSGBOX_DEFAULT
+	closemessage
+	applymovement ProfOak, Route102_Movement_ProfOakWarpOut
+	waitmovement 0
+		setflag FLAG_HIDE_ROUTE102_PROF_OAK
+	hideobjectat ProfOak, MAP_ROUTE102
+	releaseall
+	end
+
+Route102_EventScript_ProfOak_Done::
+	releaseall
+	end
+
+Route102_Text_Kanto:
+	.string "{PLAYER}!!!\n"
+	.string "Prof Birch said you'd be coming\l"
+	.string "through here.\p"
+	.string "Prof Oak in Kanto wanted\n"
+	.string "me to find you.\p"
+	.string "He wants you to have this.$"
+
+Route102_Text_ReceivedTicket:
+	.string "{PLAYER} received the new\n"
+	.string "Flight Call device!$"
+
+Route102_Text_KantoAfterGift:
+	.string "That device should enable you\n"
+	.string "to visit Kanto.\p"
+	.string "I should get back to the lab\n"
+	.string "myself. See you later!$"
+
+Route102_Movement_ProfOakWarpOut:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	set_invisible
+	step_end
