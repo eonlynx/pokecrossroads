@@ -2218,15 +2218,39 @@ static void MainMenu_FormatSavegamePokedex(void)
 
 static void MainMenu_FormatSavegameBadges(void)
 {
+    static const u16 sContinueBadgeFlags[16] =
+    {
+        // Hoenn
+        FLAG_DEFEATED_RUSTBORO_GYM,
+        FLAG_DEFEATED_DEWFORD_GYM,
+        FLAG_DEFEATED_MAUVILLE_GYM,
+        FLAG_DEFEATED_LAVARIDGE_GYM,
+        FLAG_DEFEATED_PETALBURG_GYM,
+        FLAG_DEFEATED_FORTREE_GYM,
+        FLAG_DEFEATED_MOSSDEEP_GYM,
+        FLAG_DEFEATED_SOOTOPOLIS_GYM,
+
+        // Kanto
+        FLAG_BADGE01_GET,
+        FLAG_BADGE02_GET,
+        FLAG_BADGE03_GET,
+        FLAG_BADGE04_GET,
+        FLAG_BADGE05_GET,
+        FLAG_BADGE06_GET,
+        FLAG_BADGE07_GET,
+        FLAG_BADGE08_GET,
+    };
+
     u8 str[0x20];
     u8 badgeCount = 0;
     u32 i;
 
-    for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
+    for (i = 0; i < 16; i++)
     {
-        if (FlagGet(i))
+        if (FlagGet(sContinueBadgeFlags[i]))
             badgeCount++;
     }
+
     StringExpandPlaceholders(gStringVar4, gText_ContinueMenuBadges);
     AddTextPrinterParameterized3(2, FONT_NORMAL, 0x6C, 33, sTextColor_MenuInfo, TEXT_SKIP_DRAW, gStringVar4);
     ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_LEADING_ZEROS, 1);

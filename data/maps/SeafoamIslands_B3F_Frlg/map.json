@@ -3,21 +3,18 @@
   "name": "SeafoamIslands_B3F_Frlg",
   "layout": "LAYOUT_SEAFOAM_ISLANDS_B3F",
   "music": "MUS_RG_VIRIDIAN_FOREST",
-  "region": "REGION_KANTO",
   "region_map_section": "MAPSEC_SEAFOAM_ISLANDS",
   "requires_flash": false,
-  "weather": "WEATHER_NONE",
+  "weather": "WEATHER_SNOW",
   "map_type": "MAP_TYPE_UNDERGROUND",
   "allow_cycling": true,
   "allow_escaping": true,
   "allow_running": true,
   "show_map_name": true,
-  "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
   "object_events": [
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 23,
       "y": 8,
@@ -31,7 +28,6 @@
       "flag": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_1"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 24,
       "y": 8,
@@ -45,7 +41,6 @@
       "flag": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_2"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 12,
       "y": 16,
@@ -59,7 +54,6 @@
       "flag": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_5"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 13,
       "y": 16,
@@ -73,7 +67,6 @@
       "flag": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_6"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 9,
       "y": 16,
@@ -87,7 +80,6 @@
       "flag": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_4"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 6,
       "y": 17,
@@ -178,5 +170,7 @@
       "quantity": 1,
       "underfoot": false
     }
-  ]
+  ],
+  "floor_number": 0,
+  "region": "REGION_KANTO"
 }

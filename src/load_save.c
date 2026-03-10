@@ -78,13 +78,9 @@ void ClearSav1(void)
 // Offset is the sum of the trainer id bytes
 void SetSaveBlocksPointers(u16 offset)
 {
-    struct SaveBlock1 **sav1_LocalVar = &gSaveBlock1Ptr;
-
-    offset = (offset + Random()) & (SAVEBLOCK_MOVE_RANGE - 4);
-
-    gSaveBlock2Ptr = (void *)(&gSaveblock2) + offset;
-    *sav1_LocalVar = (void *)(&gSaveblock1) + offset;
-    gPokemonStoragePtr = (void *)(&gPokemonStorage) + offset;
+    gSaveBlock2Ptr = (void *)&gSaveblock2;
+    gSaveBlock1Ptr = (void *)&gSaveblock1;
+    gPokemonStoragePtr = (void *)&gPokemonStorage;
 
     SetBagItemsPointers();
     SetDecorationInventoriesPointers();
