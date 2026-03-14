@@ -5634,6 +5634,7 @@ u32 GetBattleMoveTarget(enum Move move, enum MoveTarget moveTarget)
         else
             targetBattler = SetRandomTarget(gBattlerAttacker);
         break;
+
     case TARGET_DEPENDS:
     case TARGET_BOTH:
     case TARGET_FOES_AND_ALLY:
@@ -5641,23 +5642,30 @@ u32 GetBattleMoveTarget(enum Move move, enum MoveTarget moveTarget)
         if (IsDoubleBattle() && !IsBattlerAlive(targetBattler))
             targetBattler ^= BIT_FLANK;
         break;
+
     case TARGET_OPPONENTS_FIELD:
         targetBattler = GetOpposingSideBattler(gBattlerAttacker);
         break;
-    case TARGET_USER:
-    default:
-        targetBattler = gBattlerAttacker;
-        break;
+
     case TARGET_ALLY:
-        if (IsBattlerAlive(BATTLE_PARTNER(gBattlerAttacker)))
-            targetBattler = BATTLE_PARTNER(gBattlerAttacker);
+    {
+        u32 partnerPos = BATTLE_PARTNER(GetBattlerPosition(gBattlerAttacker));
+        u32 partnerBattler = GetBattlerAtPosition(partnerPos);
+
+        if (partnerBattler < gBattlersCount && IsBattlerAlive(partnerBattler))
+            targetBattler = partnerBattler;
         else
             targetBattler = gBattlerAttacker;
         break;
     }
 
-    gBattleStruct->moveTarget[gBattlerAttacker] = targetBattler;
+    case TARGET_USER:
+    default:
+        targetBattler = gBattlerAttacker;
+        break;
+    }
 
+    gBattleStruct->moveTarget[gBattlerAttacker] = targetBattler;
     return targetBattler;
 }
 

@@ -362,33 +362,32 @@ static void HandleInputChooseAction(enum BattlerId battler)
             ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
         }
     }
-    else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
+else if (JOY_NEW(B_BUTTON))
+{
+    if (IsDoubleBattle()
+     && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT
+     && !(gAbsentBattlerFlags & (1u << GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+     && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
     {
-        if (IsDoubleBattle()
-         && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT
-         && !(gAbsentBattlerFlags & (1u << GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
-         && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
+        // Return item to bag if partner had selected one (if consumable).
+        if (gBattleResources->bufferA[battler][1] == B_ACTION_USE_ITEM && GetItemConsumability(itemId))
+            AddBagItem(itemId, 1);
+
+        PlaySE(SE_SELECT);
+        BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_CANCEL_PARTNER, 0);
+        BtlController_Complete(battler);
+    }
+    else if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+    {
+        if (gActionSelectionCursor[battler] != 3)
         {
-            // Return item to bag if partner had selected one (if consumable).
-            if (gBattleResources->bufferA[battler][1] == B_ACTION_USE_ITEM && GetItemConsumability(itemId))
-            {
-                AddBagItem(itemId, 1);
-            }
             PlaySE(SE_SELECT);
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_CANCEL_PARTNER, 0);
-            BtlController_Complete(battler);
-        }
-        else if (B_QUICK_MOVE_CURSOR_TO_RUN)
-        {
-            if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) // If wild battle, pressing B moves cursor to "Run".
-            {
-                PlaySE(SE_SELECT);
-                ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
-                gActionSelectionCursor[battler] = 3;
-                ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
-            }
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            gActionSelectionCursor[battler] = 3;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
         }
     }
+}
     else if (JOY_NEW(START_BUTTON))
     {
         SwapHpBarsWithHpText();

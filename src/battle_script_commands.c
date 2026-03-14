@@ -1011,7 +1011,9 @@ static void Cmd_attackcanceler(void)
 {
     CMD_ARGS();
     assertf(gBattlerAttacker < gBattlersCount, "invalid gBattlerAttacker: %d\nmove: %S", gBattlerAttacker, GetMoveName(gCurrentMove));
-    assertf(gBattlerTarget < gBattlersCount, "invalid gBattlerTarget: %d\nmove: %S", gBattlerTarget, GetMoveName(gCurrentMove));
+
+    if (gBattlerTarget >= gBattlersCount)
+        gBattlerTarget = gBattlerAttacker;
 
     if (gBattleStruct->battlerState[gBattlerAttacker].usedEjectItem)
     {
@@ -5126,7 +5128,9 @@ static void Cmd_moveend(void)
 {
     CMD_ARGS(u8 endMode, u8 endState);
     assertf(gBattlerAttacker < gBattlersCount, "invalid gBattlerAttacker: %d\nmove: %S", gBattlerAttacker, GetMoveName(gCurrentMove));
-    assertf(gBattlerTarget < gBattlersCount, "invalid gBattlerTarget: %d\nmove: %S", gBattlerTarget, GetMoveName(gCurrentMove));
+
+    if (gBattlerTarget >= gBattlersCount)
+        gBattlerTarget = gBattlerAttacker;
 
     enum MoveEndResult result = DoMoveEnd(cmd->endMode, cmd->endState);
 
@@ -8731,55 +8735,49 @@ static void Cmd_disablelastusedattack(void)
 
 static void Cmd_trysetencore(void)
 {
-    CMD_ARGS(const u8 *failInstr);
+    int i;
+    enum Move moveToEncore = gLastMoves[gBattlerTarget];
 
-    s32 i;
-
-    if (IsMaxMove(gLastMoves[gBattlerTarget]) && !(GetActiveGimmick(gBattlerTarget) == GIMMICK_DYNAMAX))
+    if (gLastResultingMoves[gBattlerTarget] == MOVE_UNAVAILABLE
+     || gLastResultingMoves[gBattlerTarget] == MOVE_NONE)
     {
-        for (i = 0; i < MAX_MON_MOVES; i++)
+        gBattlescriptCurrInstr += 7;
+        return;
+    }
+
+    if (IsMaxMove(moveToEncore) && !(GetActiveGimmick(gBattlerTarget) == GIMMICK_DYNAMAX))
+    {
+        gBattlescriptCurrInstr += 7;
+        return;
+    }
+
+    if (IsMoveEncoreBanned(moveToEncore)
+     || moveToEncore == MOVE_NONE
+     || moveToEncore == MOVE_UNAVAILABLE
+     || gBattleMons[gBattlerTarget].volatiles.encoredMove != MOVE_NONE)
+    {
+        gBattlescriptCurrInstr += 7;
+        return;
+    }
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (gBattleMons[gBattlerTarget].moves[i] == moveToEncore)
         {
-            if (gBattleMons[gBattlerTarget].moves[i] == gBattleStruct->dynamax.baseMoves[gBattlerTarget])
-                break;
+            gBattleMons[gBattlerTarget].volatiles.encoredMove = moveToEncore;
+            gBattleMons[gBattlerTarget].volatiles.encoredMovePos = i;
+
+            if (moveToEncore != GetBattlerChosenMove(gBattlerTarget))
+                gBattleMons[gBattlerTarget].volatiles.encoreTimer = B_ENCORE_TIMER;
+            else
+                gBattleMons[gBattlerTarget].volatiles.encoreTimer = B_ENCORE_TIMER - 1;
+
+            gBattlescriptCurrInstr++;
+            return;
         }
     }
-    else
-    {
-        for (i = 0; i < MAX_MON_MOVES; i++)
-        {
-            if (gBattleMons[gBattlerTarget].moves[i] == gLastMoves[gBattlerTarget])
-                break;
-        }
-    }
 
-    if ((IsMoveEncoreBanned(gLastMoves[gBattlerTarget]))
-     || i == MAX_MON_MOVES
-     || gLastMoves[gBattlerTarget] == MOVE_NONE
-     || gLastMoves[gBattlerTarget] == MOVE_UNAVAILABLE
-     || gBattleMons[gBattlerTarget].pp[i] == 0
-     || gBattleMons[gBattlerTarget].volatiles.encoredMove != MOVE_NONE
-     || GetMoveEffect(gChosenMoveByBattler[gBattlerTarget]) == EFFECT_SHELL_TRAP)
-    {
-        gBattlescriptCurrInstr = cmd->failInstr;
-    }
-    else
-    {
-        gBattleMons[gBattlerTarget].volatiles.encoredMove = gBattleMons[gBattlerTarget].moves[i];
-        gBattleMons[gBattlerTarget].volatiles.encoredMovePos = i;
-
-        // If the target's selected move is not the same as the move being Encored into,
-        // the target will select a random opposing target
-        // Redirection such as Follow Me is already covered in HandleAction_UseMove of battle_util.c
-        if (gBattleMons[gBattlerTarget].volatiles.encoredMove != GetBattlerChosenMove(gBattlerTarget))
-            gBattleStruct->moveTarget[gBattlerTarget] = SetRandomTarget(gBattlerTarget);
-
-        // Encore always lasts 3 turns, but we need to account for a scenario where Encore changes the move during the same turn.
-        if (HasBattlerActedThisTurn(gBattlerTarget))
-            gBattleMons[gBattlerTarget].volatiles.encoreTimer = B_ENCORE_TIMER;
-        else
-            gBattleMons[gBattlerTarget].volatiles.encoreTimer = B_ENCORE_TIMER - 1;
-        gBattlescriptCurrInstr = cmd->nextInstr;
-    }
+    gBattlescriptCurrInstr += 7;
 }
 
 static void Cmd_painsplitdmgcalc(void)
@@ -9668,6 +9666,8 @@ static void Cmd_settaunt(void)
 static void Cmd_trysethelpinghand(void)
 {
     CMD_ARGS(const u8 *failInstr);
+    u32 partnerPos;
+    u32 partnerBattler;
 
     if (!IsDoubleBattle())
     {
@@ -9675,18 +9675,28 @@ static void Cmd_trysethelpinghand(void)
         return;
     }
 
-    gBattlerTarget = GetBattlerAtPosition(BATTLE_PARTNER(GetBattlerPosition(gBattlerAttacker)));
+    assertf(gBattlersCount >= 4,
+        "Helping Hand in double battle with invalid battlersCount=%d\nflags=%08X\nattacker=%d\ntarget=%d\nmove=%d",
+        gBattlersCount, gBattleTypeFlags, gBattlerAttacker, gBattlerTarget, gCurrentMove);
 
-    if (!(gAbsentBattlerFlags & (1u << gBattlerTarget))
-     && !HasBattlerActedThisTurn(gBattlerTarget))
-    {
-        gProtectStructs[gBattlerTarget].helpingHand++;
-        gBattlescriptCurrInstr = cmd->nextInstr;
-    }
-    else
+    partnerPos = BATTLE_PARTNER(GetBattlerPosition(gBattlerAttacker));
+    partnerBattler = GetBattlerAtPosition(partnerPos);
+
+    assertf(partnerBattler < gBattlersCount,
+        "Helping Hand partner invalid\npartnerPos=%d\npartnerBattler=%d\nbattlersCount=%d\nflags=%08X\nattacker=%d\nmove=%d",
+        partnerPos, partnerBattler, gBattlersCount, gBattleTypeFlags, gBattlerAttacker, gCurrentMove);
+
+    if ((gAbsentBattlerFlags & (1u << partnerBattler))
+     || !IsBattlerAlive(partnerBattler)
+     || HasBattlerActedThisTurn(partnerBattler))
     {
         gBattlescriptCurrInstr = cmd->failInstr;
+        return;
     }
+
+    gBattlerTarget = partnerBattler;
+    gProtectStructs[partnerBattler].helpingHand++;
+    gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
 // Trick
@@ -13612,7 +13622,19 @@ void BS_IsRunningImpossible(void)
 void BS_GetMoveTarget(void)
 {
     NATIVE_ARGS();
+
+    if (gCurrentMove == MOVE_HELPING_HAND && !IsDoubleBattle())
+    {
+        gBattlerTarget = gBattlerAttacker;
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+
     gBattlerTarget = GetBattleMoveTarget(gCurrentMove, TARGET_NONE);
+
+    if (gBattlerTarget >= gBattlersCount)
+        gBattlerTarget = gBattlerAttacker;
+
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
