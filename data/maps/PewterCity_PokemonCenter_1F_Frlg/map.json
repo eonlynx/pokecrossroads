@@ -3,7 +3,6 @@
   "name": "PewterCity_PokemonCenter_1F_Frlg",
   "layout": "LAYOUT_POKEMON_CENTER_1F_FRLG",
   "music": "MUS_POKE_CENTER",
-  "region": "REGION_KANTO",
   "region_map_section": "MAPSEC_PEWTER_CITY",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
@@ -12,12 +11,10 @@
   "allow_escaping": false,
   "allow_running": false,
   "show_map_name": false,
-  "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
   "object_events": [
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_JIGGLYPUFF",
       "x": 2,
       "y": 2,
@@ -31,7 +28,6 @@
       "flag": "0"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN_FRLG",
       "x": 4,
       "y": 8,
@@ -46,7 +42,6 @@
     },
     {
       "local_id": "LOCALID_PEWTER_NURSE",
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_NURSE_FRLG",
       "x": 7,
       "y": 2,
@@ -60,7 +55,6 @@
       "flag": "0"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER_FRLG",
       "x": 1,
       "y": 2,
@@ -74,7 +68,6 @@
       "flag": "0"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN_1_FRLG",
       "x": 13,
       "y": 2,
@@ -88,7 +81,6 @@
       "flag": "0"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GBA_KID",
       "x": 10,
       "y": 7,
@@ -102,7 +94,6 @@
       "flag": "0"
     },
     {
-      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GBA_KID",
       "x": 14,
       "y": 6,
@@ -144,8 +135,17 @@
       "elevation": 4,
       "dest_map": "MAP_PEWTER_CITY_POKEMON_CENTER_2F",
       "dest_warp_id": "0"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_PETALBURG_CITY_POKEMON_CENTER_1F",
+      "dest_warp_id": "3"
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [],
+  "floor_number": 0,
+  "region": "REGION_KANTO"
 }
