@@ -102,6 +102,13 @@
       "elevation": 4,
       "dest_map": "MAP_PETALBURG_CITY_POKEMON_CENTER_2F",
       "dest_warp_id": "0"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_PEWTER_CITY_POKEMON_CENTER_1F",
+      "dest_warp_id": "4"
     }
   ],
   "coord_events": [],
