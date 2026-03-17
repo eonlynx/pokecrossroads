@@ -2374,8 +2374,8 @@
 #define FLAG_SYS_UNLOCKED_TANOBY_RUINS                              0x162
 
 // Flight Call item scripts
-#define FLAG_GOT_SS_TICKET_FROM_OAK    0x1AA        //Teleport Item
-#define FLAG_HIDE_ROUTE102_PROF_OAK    0x1AB
+#define FLAG_GOT_FLIGHT_CALL                                        0x1AA        //Teleport Item
+#define FLAG_HIDE_ROUTE_PROF_ASSISTANT                              0x1AB
 
 // World Map Flags
 #define FLAG_WORLD_MAP_PALLET_TOWN                                  0xA7B

@@ -846,7 +846,6 @@ static void SetDataFromTrainerCard(void)
     sData->unused_F = FALSE;
     sData->hasTrades = FALSE;
     memset(sData->badgeCount, 0, sizeof(sData->badgeCount));
-
     if (sData->trainerCard.hasPokedex)
         sData->hasPokedex++;
 
@@ -857,17 +856,15 @@ static void SetDataFromTrainerCard(void)
 
     if (sData->trainerCard.linkBattleWins || sData->trainerCard.linkBattleLosses)
         sData->hasLinkResults++;
-
     if (sData->trainerCard.pokemonTrades)
         sData->hasTrades++;
-
     if (sData->trainerCard.battleTowerWins || sData->trainerCard.battleTowerStraightWins)
         sData->hasBattleTowerWins++;
 
-    for (i = 0; i < 16; i++)
+    for (i = 0; i < TRAINER_CARD_BADGES_COUNT; i++)
     {
         if (FlagGet(sBadgeFlags[i]))
-            sData->badgeCount[i] = 1;
+            sData->badgeCount[i]++;
     }
 }
 
@@ -1033,9 +1030,9 @@ static void PrintNameOnCardFront(void)
     StringCopy(txtPtr, sData->trainerCard.playerName);
     ConvertInternationalString(txtPtr, sData->language);
     if (sData->cardType == CARD_TYPE_FRLG)
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 22, sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 28, sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer);
     else
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 27, sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 33, sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer);
 }
 
 static void PrintIdOnCard(void)
@@ -1066,21 +1063,21 @@ static void PrintMoneyOnCard(void)
     u8 top;
 
     if (!sData->isHoenn)
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 50, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardMoney);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 56, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardMoney);
     else
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 51, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardMoney);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 57, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardMoney);
 
     ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.money, STR_CONV_MODE_LEFT_ALIGN, MAX_MONEY_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_PokedollarVar1);
     if (!sData->isHoenn)
     {
         xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 144);
-        top = 48;
+        top = 56;
     }
     else
     {
         xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 128);
-        top = 49;
+        top = 57;
     }
     AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
 }
@@ -1100,19 +1097,19 @@ static void PrintPokedexOnCard(void)
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         if (!sData->isHoenn)
-            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 66, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
+            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 72, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
         else
-            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 67, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
+            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 73, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
         StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 4), gText_EmptyString6);
         if (!sData->isHoenn)
         {
             xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 144);
-            top = 64;
+            top = 72;
         }
         else
         {
             xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 128);
-            top = 65;
+            top = 73;
         }
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
     }
@@ -1128,9 +1125,9 @@ static void PrintTimeOnCard(void)
     u32 x, y, totalWidth;
 
     if (!sData->isHoenn)
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 82, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardTime);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 88, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardTime);
     else
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 83, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardTime);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 89, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardTime);
 
     if (sData->isLink)
     {
@@ -1152,12 +1149,12 @@ static void PrintTimeOnCard(void)
     if (!sData->isHoenn)
     {
         x = 144;
-        y = 80;
+        y = 88;
     }
     else
     {
         x = 128;
-        y = 81;
+        y = 89;
     }
     totalWidth = width + 30;
     x -= totalWidth;
@@ -1453,23 +1450,23 @@ static u8 SetCardBgsAndPals(void)
     case 1:
         LoadBgTiles(0, sData->cardTiles, 0x1800, 0);
         break;
-	case 2:
-		if (sData->cardType != CARD_TYPE_FRLG)
-		{
-			LoadPalette(sHoennTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
-			LoadPalette(sHoennTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
-			if (sData->trainerCard.gender != MALE)
-				LoadPalette(sHoennTrainerCardFemaleBg_Pal, BG_PLTT_ID(1), PLTT_SIZE_4BPP);
-		}
-		else
-		{
-			LoadPalette(sKantoTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
-			LoadPalette(sHoennTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
-			if (sData->trainerCard.gender != MALE)
-				LoadPalette(sKantoTrainerCardFemaleBg_Pal, BG_PLTT_ID(1), PLTT_SIZE_4BPP);
-		}
-		LoadPalette(sTrainerCardStar_Pal, BG_PLTT_ID(4), PLTT_SIZE_4BPP);
-		break;
+    case 2:
+        if (sData->cardType != CARD_TYPE_FRLG)
+        {
+            LoadPalette(sHoennTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
+            LoadPalette(sHoennTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
+            if (sData->trainerCard.gender != MALE)
+                LoadPalette(sHoennTrainerCardFemaleBg_Pal, BG_PLTT_ID(1), PLTT_SIZE_4BPP);
+        }
+        else
+        {
+            LoadPalette(sKantoTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
+            LoadPalette(sKantoTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
+            if (sData->trainerCard.gender != MALE)
+                LoadPalette(sKantoTrainerCardFemaleBg_Pal, BG_PLTT_ID(1), PLTT_SIZE_4BPP);
+        }
+        LoadPalette(sTrainerCardStar_Pal, BG_PLTT_ID(4), PLTT_SIZE_4BPP);
+        break;
     case 3:
         SetBgTilemapBuffer(0, sData->cardTilemapBuffer);
         SetBgTilemapBuffer(2, sData->bgTilemapBuffer);
@@ -1525,19 +1522,18 @@ static void DrawStarsAndBadgesOnCard(void)
 {
     static const u8 yOffsets[] = {7, 7};
 
-    s16 i;
+    s16 i, x, y;
     u16 tileNum;
     u8 palNum = 3;
     s16 startX = 4;
     s16 startY = isFrlg ? 14 : 13;   // moved down 1 tile
-    s16 x, y;
     s16 badgeIndex;
 
     FillBgTilemapBufferRect(3, 143, 15, yOffsets[sData->isHoenn], sData->trainerCard.stars, 1, 4);
 
     if (!sData->isLink)
     {
-        for (i = 0; i < 16; i++)
+        for (i = 0; i < TRAINER_CARD_BADGES_COUNT; i++)
         {
             x = startX + (i % 8) * 3;
             y = startY + (i / 8) * 2;   // tighter spacing between rows
@@ -1556,13 +1552,12 @@ static void DrawStarsAndBadgesOnCard(void)
                 tileNum = 192 + 32 + (badgeIndex * 2);
             }
 
-            FillBgTilemapBufferRect(3, tileNum,      x,     y,     1, 1, palNum);
-            FillBgTilemapBufferRect(3, tileNum + 1,  x + 1, y,     1, 1, palNum);
-            FillBgTilemapBufferRect(3, tileNum + 16, x,     y + 1, 1, 1, palNum);
+            FillBgTilemapBufferRect(3, tileNum, x, y, 1, 1, palNum);
+            FillBgTilemapBufferRect(3, tileNum + 1, x + 1, y, 1, 1, palNum);
+            FillBgTilemapBufferRect(3, tileNum + 16, x, y + 1, 1, 1, palNum);
             FillBgTilemapBufferRect(3, tileNum + 17, x + 1, y + 1, 1, 1, palNum);
         }
     }
-
     CopyBgTilemapBufferToVram(3);
 }
 
@@ -1935,26 +1930,22 @@ static void CreateTrainerCardTrainerPic(void)
 {
     if (InUnionRoom() == TRUE && gReceivedRemoteLinkPlayers)
     {
-        CreateTrainerCardTrainerPicSprite(
-            FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
-            TRUE,
-            sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
-            sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
-            8,
-            WIN_TRAINER_PIC
-        );
+        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
+                    TRUE,
+                    sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
+                    sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
+                    8,
+                    WIN_TRAINER_PIC);
     }
     else
     {
         u8 regionIndex = (gSaveBlock2Ptr->playerRegion == REGION_KANTO) ? 0 : 1;
 
-        CreateTrainerCardTrainerPicSprite(
-            FacilityClassToPicIndex(GetPlayerTrainerCardFacilityClass()),
-            TRUE,
-            sTrainerPicOffset[regionIndex][gSaveBlock2Ptr->playerGender][0],
-            sTrainerPicOffset[regionIndex][gSaveBlock2Ptr->playerGender][1],
-            8,
-            WIN_TRAINER_PIC
-        );
+        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(GetPlayerTrainerCardFacilityClass()),
+                    TRUE,
+                    sTrainerPicOffset[regionIndex][gSaveBlock2Ptr->playerGender][0],
+                    sTrainerPicOffset[regionIndex][gSaveBlock2Ptr->playerGender][1],
+                    8,
+                    WIN_TRAINER_PIC);
     }
 }
