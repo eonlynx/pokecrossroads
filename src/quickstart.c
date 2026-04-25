@@ -19,6 +19,8 @@
 #define TAG_SKIP_INTRO 2000
 
 static const u32 gQuickstartHudGfx[] = INCBIN_U32("graphics/quickstart/quickstart_hud.4bpp.smol");
+static const u32 gEmeraldHudGfx[] = INCBIN_U32("graphics/quickstart/emerald_hud.4bpp.smol");
+static const u32 gFireRedHudGfx[] = INCBIN_U32("graphics/quickstart/firered_hud.4bpp.smol");
 #if FIRERED
 static const u16 gQuickstartHudPal[] = INCBIN_U16("graphics/quickstart/firered.gbapal");
 #elif LEAFGREEN
@@ -26,6 +28,8 @@ static const u16 gQuickstartHudPal[] = INCBIN_U16("graphics/quickstart/leafgreen
 #else
 static const u16 gQuickstartHudPal[] = INCBIN_U16("graphics/quickstart/emerald.gbapal");
 #endif
+static const u16 gEmeraldHudPal[] = INCBIN_U16("graphics/quickstart/emerald_hud.gbapal");
+static const u16 gFireRedHudPal[] = INCBIN_U16("graphics/quickstart/firered_hud.gbapal");
 
 static const struct OamData sQuickstartHudOam = {
     .y = DISPLAY_HEIGHT,
@@ -53,8 +57,26 @@ static const struct CompressedSpriteSheet sSpriteSheet_QuickstartHud = {
     .size = 0x200,
     .tag = TAG_SKIP_INTRO
 };
+static const struct CompressedSpriteSheet sSpriteSheet_EmeraldHud = {
+    .data = gEmeraldHudGfx,
+    .size = 0x200,
+    .tag = TAG_SKIP_INTRO
+};
+static const struct CompressedSpriteSheet sSpriteSheet_FireRedHud = {
+    .data = gFireRedHudGfx,
+    .size = 0x200,
+    .tag = TAG_SKIP_INTRO
+};
 static const struct SpritePalette sSpritePalette_QuickstartHud = {
     .data = gQuickstartHudPal,
+    .tag = TAG_SKIP_INTRO
+};
+static const struct SpritePalette sSpritePalette_EmeraldHud = {
+    .data = gEmeraldHudPal,
+    .tag = TAG_SKIP_INTRO
+};
+static const struct SpritePalette sSpritePalette_FireRedHud = {
+    .data = gFireRedHudPal,
     .tag = TAG_SKIP_INTRO
 };
 
@@ -104,8 +126,16 @@ static void CB2_SkipToNewGame(void)
 
 static void LoadQuickstartSpritsheetAndPal(void)
 {
-    LoadCompressedSpriteSheet(&sSpriteSheet_QuickstartHud);
-    LoadSpritePalette(&sSpritePalette_QuickstartHud);
+    if (isFrlg)
+    {
+        LoadCompressedSpriteSheet(&sSpriteSheet_EmeraldHud);
+        LoadSpritePalette(&sSpritePalette_EmeraldHud);
+    }
+    else
+    {
+        LoadCompressedSpriteSheet(&sSpriteSheet_FireRedHud);
+        LoadSpritePalette(&sSpritePalette_FireRedHud);
+    }
 }
 
 void CreateQuickstartHud(void)
