@@ -17,16 +17,10 @@ static enum TrainerPicID GetKantoTrainerPic(enum Gender gender)
 
 enum TrainerPicID GetPlayerTrainerPic(enum Gender gender, enum GameVersion version)
 {
-    switch (version)
-    {
-        case VERSION_SAPPHIRE:
-        case VERSION_RUBY:
-            return GetRSTrainerPic(gender);
-        case VERSION_LEAF_GREEN:
-        case VERSION_FIRE_RED:
-            return GetKantoTrainerPic(gender);
-        case VERSION_EMERALD:
-        default:
-            return GetEmeraldTrainerPic(gender);
-    }
+    if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
+        return GetKantoTrainerPic(gender);
+    else if (version == VERSION_SAPPHIRE || version == VERSION_RUBY)
+        return GetRSTrainerPic(gender);
+    else
+        return GetEmeraldTrainerPic(gender);
 }
