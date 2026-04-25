@@ -11,9 +11,9 @@ https://www.pokecommunity.com/threads/pok%C3%A9mon-crossroads-kanto-johto-and-ho
 ## New Discord Link!
 You can join our Discord community with this link: https://discord.gg/ReWmTP86Ap
 
-## Beta 1.2 – Now Available! (March 17, 2026)
+## Beta 1.4 – Now Available! (April 25, 2026)
 
-The **Beta 1.2** release is live and ready to play.  
+The **Beta 1.4** release is live and ready to play.  
 Download the .ups patch file from the [Releases section on GitHub](https://github.com/eonlynx/pokecrossroads/releases).
 
 Main devs:
@@ -25,7 +25,7 @@ Special thanks to:
 
 ![Pokémon Crossroads Layout](crossroads_layout.jpeg)
 
-### Key Features in Beta 1.2
+### Key Features in Beta 1.4
 
 - Three fully explorable regions: **Hoenn**, **Kanto**, and the **Sevii Islands**.
 - Dual complete storylines: Play through the full stories of *Pokémon Emerald* and *Pokémon FireRed* — in any order you choose.
@@ -55,10 +55,10 @@ You will need a legally obtained copy of **Pokémon Emerald (U)** (USA version, 
 
 1. Go to: https://www.marcrobledo.com/RomPatcher.js/legacy/
 2. Click "ROM file" and upload your **Pokemon - Emerald Version (U).gba**
-3. Click "Patch file" and upload the **pokemon_crossroads_beta1.2.ups** file from our Releases
+3. Click "Patch file" and upload the **pokemon_crossroads_beta1.4.ups** file from our Releases
 4. Wait for the green checkmark to appear
 5. Click "Apply patch"
-6. The patched ROM (**pokemon_crossroads_beta1.2.gba**) will download automatically
+6. The patched ROM (**pokemon_crossroads_beta1.4.gba**) will download automatically
 
 Play the resulting .gba file on your favorite GBA emulator.
 
