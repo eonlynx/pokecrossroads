@@ -1247,7 +1247,7 @@
 
 	@ Opens the Pokemart system, offering the specified products for sale.
 	@ Products should be a list of .2byte item values preceded by an .align 2
-	.macro pokemart products:req
+	.macro pokemart products=Pokemart_DefaultItemList
 	.byte SCR_OP_POKEMART
 	.4byte \products
 	.endm
@@ -1279,11 +1279,14 @@
 	.endm
 
 	@ Sets a berry tree's berry and growth stage. treeId is any BERRY_TREE_* constant (an index into berryTrees in SaveBlock1),
-	@ berry is any ITEM_TO_BERRY(ITEM_BERRY_NAME) value, and growthStage is any BERRY_STAGE_* constant.
-	.macro setberrytree treeId:req, berry:req, growthStage:req
+	@ berryId is any BERRY_ID_X value, and growthStage is any BERRY_STAGE_* constant.
+	.macro setberrytree treeId:req, berryId:req, growthStage:req
+	.if \berryId == 0 || \berryId > NUM_BERRIES
+		.error "setberrytree must use a valid berry index"
+	.endif
 	.byte SCR_OP_SETBERRYTREE
 	.byte \treeId
-	.byte \berry
+	.byte \berryId
 	.byte \growthStage
 	.endm
 
@@ -1446,6 +1449,18 @@
 	.2byte \y
 	.2byte \metatileId
 	.2byte \impassable
+	.endm
+
+	@ Set a metatile at all tiles within the bounds [xmin,ymin] to [xmax,ymax] inclusive with desired elevation
+	.macro setmetatileinrange xmin:req, ymin:req, xmax:req, ymax:req, metatileId:req, collision=FALSE, elevation=0xFF
+	callnative NativeFunc_SetMetatileInRange
+	.byte \xmin
+	.byte \ymin
+	.byte \xmax
+	.byte \ymax
+	.2byte \metatileId
+	.byte \collision
+	.byte \elevation
 	.endm
 
 	@ Queues a weather change to the default weather for the map.
@@ -2216,18 +2231,6 @@
 	settotemboost \battler, 0, 0, 0, 0, 0, 0, 2
 	.endm
 
-	@ Attempts to trigger a special evolution method in the overworld.
-	@ There may be other conditions required which are coded for in GetEvolutionTargetSpecies.
-	@ EX: tryspecialevo EVO_WATER_SCROLL, FALSE, FALSE triggers Kubfu's EVO_WATER_SCROLL evolution
-	@ 	  method, cannot be cancelled in the evolution scene, and will only evolve one Kubfu if there
-	@	  are multiple in the player's party.
-	.macro tryspecialevo evoMethod:req, canStopEvo=TRUE, tryMultiple=TRUE
-	setvar VAR_0x8000, \evoMethod
-	setvar VAR_0x8001, \canStopEvo
-	setvar VAR_0x8002, \tryMultiple
-	special TrySpecialScriptEvolution
-	.endm
-
 	.macro ai_vs_ai_battle trainer1:req, trainer2:req
 	setflag B_FLAG_AI_VS_AI_BATTLE
 	setvar VAR_0x8004, \trainer1
@@ -2338,9 +2341,9 @@
 	.endm
 
 	@ Buffers the nickname of the first alive party member.
-	.macro bufferlivemonnickname out:req
+	.macro bufferlivemonnickname stringVarId:req
 	callnative BufferFirstLiveMonNickname, requests_effects=1
-	.byte \out
+	stringvar \stringVarId
 	.endm
 
 	@ Executes Follower actions
@@ -2649,7 +2652,7 @@
 	callnative DoFacilityTrainerBattle
 	.byte \facility
 	.endm
-	
+
 	.macro ingame_trade tradeId:req wantTradeMsg:req, declineTradeJump:req, wrongMonJump:req, tradeCompleteMsg:req
 	setvar VAR_0x8005, \tradeId
 	specialvar VAR_0x8009, GetInGameTradeSpeciesInfo
@@ -2663,6 +2666,7 @@
 	special CreateInGameTradePokemon
 	special DoInGameTradeScene
 	waitstate
+	bufferspeciesname STR_VAR_1, VAR_0x8009
 	msgbox \tradeCompleteMsg, MSGBOX_DEFAULT
 	.endm
 
@@ -2689,6 +2693,30 @@
 	.macro chooseboxmon selectionType=SELECT_PC_MON_NORMAL
 	callnative ChooseBoxMon
 	.byte \selectionType
+	.endm
+
+	@ picks the first mon in party matching the given selectionType (enum PcMonSelectionType)
+	.macro pickpartymon selectionType:req
+	callnative PickPartyMon
+	.byte \selectionType
+	.endm
+
+	.macro mappreview duration:req
+	callnative MapPreviewScript
+	.2byte \duration
+	.endm
+
+	.macro tryspecialevo evoArg:req, canStopEvo=TRUE, tryMultiple=FALSE
+	setvar VAR_0x8000, \canStopEvo
+	setvar VAR_0x8005, \evoArg
+	.if \tryMultiple
+		setvar VAR_RESULT, 0
+		setvar VAR_0x8006, 0
+		callnative Script_TriggerMultipleEvolutions
+	.else
+		pickpartymon SELECT_PC_MON_EVOLUTION
+		callnative Script_TriggerUniqueEvolution
+	.endif
 	.endm
 
 @ Follower NPCs
@@ -2785,6 +2813,20 @@
 	.4byte \name
 	.endm
 
+	@ Gives a random berry between the index ranges
+	.macro giverandomberry loBerry:req, hiBerry:req
+	.if \loBerry == 0 || \loBerry > NUM_BERRIES
+		.error "giverandomberry must use a valid berry index for first argument"
+	.endif
+	.if \hiBerry == 0 || \hiBerry > NUM_BERRIES
+		.error "giverandomberry must use a valid berry index for second argument"
+	.endif
+	callnative Script_GiveRandomBerry
+	.byte \loBerry
+	.byte \hiBerry
+	giveitem VAR_RESULT
+	.endm
+
 @ VS Seeker
 	.macro vsseeker_rematchid rematchId:req
 	callnative NativeVsSeekerRematchId, requests_effects=1
@@ -2795,18 +2837,6 @@
 	.macro setmoverelearnerstate state:req
 	callnative ScrCmd_setmoverelearnerstate, requests_effects=1
 	.2byte \state
-	.endm
-
-	@ Retrieves the move relearner state and stores it in the specified var
-	.macro getmoverelearnerstate varId:req
-	callnative ScrCmd_getmoverelearnerstate, requests_effects=1
-	.4byte \varId
-	.endm
-
-	@ Execute script if bag has TMs and/or HMs
-	.macro istmrelearneractive destination:req
-	callnative ScrCmd_istmrelearneractive, requests_effects=1
-	.4byte \destination
 	.endm
 
 	@ Sets a starting status for the next battle. Can be stacked.

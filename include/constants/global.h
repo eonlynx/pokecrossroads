@@ -26,6 +26,7 @@
 #include "config/frlg.h"
 #include "config/general.h"
 #include "config/item.h"
+#include "config/map_preview_screen.h"
 #include "config/overworld.h"
 #include "config/pokemon.h"
 #include "config/summary_screen.h"
@@ -104,7 +105,6 @@ enum Language
 #define MAX_REMATCH_ENTRIES 100 // only REMATCH_TABLE_ENTRIES (78) are used
 #define NUM_CONTEST_WINNERS 13
 #define UNION_ROOM_KB_ROW_COUNT 10
-#define GIFT_RIBBONS_COUNT 11
 #define SAVED_TRENDS_COUNT 5
 #define PYRAMID_BAG_ITEMS_COUNT 10
 #define ROAMER_COUNT 1 // Number of maximum concurrent active roamers

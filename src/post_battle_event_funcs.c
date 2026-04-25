@@ -48,7 +48,7 @@ int GameClear(void)
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        struct Pokemon *mon = &gPlayerParty[i];
+        struct Pokemon *mon = &gParties[B_TRAINER_0][i];
 
         ribbonCounts[i].partyIndex = i;
         ribbonCounts[i].count = 0;
@@ -81,7 +81,7 @@ int GameClear(void)
 
         if (ribbonCounts[0].count > NUM_CUTIES_RIBBONS)
         {
-            TryPutSpotTheCutiesOnAir(&gPlayerParty[ribbonCounts[0].partyIndex], MON_DATA_CHAMPION_RIBBON);
+            TryPutSpotTheCutiesOnAir(&gParties[B_TRAINER_0][ribbonCounts[0].partyIndex], MON_DATA_CHAMPION_RIBBON);
         }
     }
 
@@ -122,12 +122,12 @@ bool8 EnterHallOfFame(void)
     gaveAtLeastOneRibbon = FALSE;
     for (i = 0, r7 = &ribbonState; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_HAS_SPECIES) && !GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG))
+        if (GetMonData(&gParties[B_TRAINER_0][i], MON_DATA_SANITY_HAS_SPECIES) && !GetMonData(&gParties[B_TRAINER_0][i], MON_DATA_SANITY_IS_EGG))
         {
-            if (!GetMonData(&gPlayerParty[i], MON_DATA_CHAMPION_RIBBON))
+            if (!GetMonData(&gParties[B_TRAINER_0][i], MON_DATA_CHAMPION_RIBBON))
             {
                 *r7 = TRUE;
-                SetMonData(&gPlayerParty[i], MON_DATA_CHAMPION_RIBBON, &ribbonState);
+                SetMonData(&gParties[B_TRAINER_0][i], MON_DATA_CHAMPION_RIBBON, &ribbonState);
                 gaveAtLeastOneRibbon = TRUE;
             }
         }

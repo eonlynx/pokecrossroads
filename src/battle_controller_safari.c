@@ -19,6 +19,7 @@
 #include "sound.h"
 #include "task.h"
 #include "text.h"
+#include "trainer.h"
 #include "util.h"
 #include "window.h"
 #include "line_break.h"
@@ -275,14 +276,10 @@ void SafariBufferExecCompleted(enum BattlerId battler)
 
 static void SafariHandleDrawTrainerPic(enum BattlerId battler)
 {
-    enum TrainerPicID trainerPicId;
-    if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
-        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED;
-    else
-        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN;
+    enum TrainerPicID trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
 
     BtlController_HandleDrawTrainerPic(battler, trainerPicId, FALSE,
-                                       80, 80 + 4 * (8 - gTrainerBacksprites[trainerPicId].coordinates.size),
+                                       80, 80 + 4 * (8 - GetTrainerBackPicCoords(trainerPicId)->size),
                                        30);
 }
 
@@ -344,10 +341,10 @@ static void SafariHandleChoosePokemon(enum BattlerId battler)
 }
 
 // All of the other controllers(except Wally's) use CRY_MODE_FAINT.
-// Player is not a pokemon, so it can't really faint in the Safari anyway.
+// Player is not a Pokémon, so it can't really faint in the Safari anyway.
 static void SafariHandleFaintingCry(enum BattlerId battler)
 {
-    u16 species = GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES);
+    enum Species species = GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES);
 
     PlayCry_Normal(species, 25);
     BtlController_Complete(battler);

@@ -15,6 +15,7 @@
 #include "menu.h"
 #include "new_game.h"
 #include "palette.h"
+#include "quickstart.h"
 #include "random.h"
 #include "reset_rtc_screen.h"
 #include "save.h"
@@ -657,6 +658,8 @@ static void SetTitleScreenScene_Run(s16 *data)
     switch (tState)
     {
     case 0:
+        if (QUICKSTART && QUICKSTART_HUD)
+            CreateQuickstartHud();
         CreateTask(Task_TitleScreen_BlinkPressStart, 0);
 #if defined(FIRERED_INT)
         CreateTask(Task_FlameSpawner, 5);
@@ -1031,9 +1034,9 @@ static bool32 CreateFlameSprite(s32 x, s32 y, s32 xspeed, s32 yspeed, bool32 cre
 {
     u8 spriteId;
     if (createFlame)
-        spriteId = CreateSprite(&sSpriteTemplate_FlameOrLeaf, x, y, 0);
+        spriteId = CreateSpriteUnchecked(&sSpriteTemplate_FlameOrLeaf, x, y, 0);
     else
-        spriteId = CreateSprite(&sSpriteTemplate_BlankFlame, x, y, 0);
+        spriteId = CreateSpriteUnchecked(&sSpriteTemplate_BlankFlame, x, y, 0);
 
     if (spriteId != MAX_SPRITES)
     {

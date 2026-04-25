@@ -11,6 +11,7 @@
 #include "battle_controllers.h"
 #include "link.h"
 #include "sprite.h"
+#include "trainer.h"
 #include "constants/trainers.h"
 #include "battle_interface.h"
 #include "battle_anim.h"
@@ -134,7 +135,7 @@ static void CB2_ReshowBattleScreenAfterMenu(void)
     case 19:
         {
             enum BattlerId opponentBattler;
-            u16 species;
+            enum Species species;
 
             LoadAndCreateEnemyShadowSprites();
 
@@ -279,16 +280,17 @@ static bool8 LoadBattlerSpriteGfx(enum BattlerId battler)
             else
                 BattleLoadSubstituteOrMonSpriteGfx(battler, FALSE);
         }
-        else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT && gSaveBlock2Ptr->playerRegion == REGION_KANTO)
-            DecompressTrainerBackPic((gSaveBlock2Ptr->playerGender == FEMALE) ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED, battler);
         else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT)
-            DecompressTrainerBackPic((gSaveBlock2Ptr->playerGender == FEMALE) ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN, battler);
+        {
+            enum TrainerPicID trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
+            LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
+        }
         else if (gBattleTypeFlags & BATTLE_TYPE_CATCH_TUTORIAL && position == B_POSITION_PLAYER_LEFT)
         {
             if (isFrlg)
-                DecompressTrainerBackPic(TRAINER_PIC_BACK_OLD_MAN, battler);
+                LoadSpritePaletteWithTag(GetTrainerBackPicPalette(TRAINER_PIC_OLD_MAN), GetTrainerPicTag(TRAINER_PIC_OLD_MAN, FALSE));
             else
-                DecompressTrainerBackPic(TRAINER_PIC_BACK_WALLY, battler);
+                LoadSpritePaletteWithTag(GetTrainerBackPicPalette(TRAINER_PIC_WALLY), GetTrainerPicTag(TRAINER_PIC_WALLY, FALSE));
         }
         else if (!gBattleSpritesDataPtr->battlerData[battler].behindSubstitute)
             BattleLoadMonSpriteGfx(GetBattlerMon(battler), battler);
@@ -319,9 +321,11 @@ void CreateBattlerSprite(enum BattlerId battler)
             struct Pokemon *mon = GetBattlerMon(battler);
             if (GetMonData(mon, MON_DATA_HP) == 0)
                 return;
+            if (gBattleStruct->battlerState[battler].notOnField) // Don't create sprite for a mon that has switched out
+                return;
             if (gBattleScripting.monCaught) // Don't create opponent sprite if it has been caught.
                 return;
-            u32 species = GetMonData(mon, MON_DATA_SPECIES);
+            enum Species species = GetMonData(mon, MON_DATA_SPECIES);
 
             SetMultiuseSpriteTemplateToPokemon(species, position);
             gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2), posY, GetBattlerSpriteSubpriority(battler));
@@ -334,17 +338,12 @@ void CreateBattlerSprite(enum BattlerId battler)
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT)
         {
-            enum TrainerPicID trainerPicId;
-            if (gSaveBlock2Ptr->playerRegion == REGION_KANTO)
-                trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_LEAF : TRAINER_PIC_BACK_RED;
-            else
-                trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_PIC_BACK_MAY : TRAINER_PIC_BACK_BRENDAN;
-
+            enum TrainerPicID trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
             SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, position);
             gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, 0x50,
-                                                (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 80,
+                                                (8 - GetTrainerBackPicCoords(trainerPicId)->size) * 4 + 80,
                                                  GetBattlerSpriteSubpriority(0));
-            gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(gTrainerBacksprites[trainerPicId].palette.tag);
+            gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE));
             gSprites[gBattlerSpriteIds[battler]].callback = SpriteCallbackDummy;
             gSprites[gBattlerSpriteIds[battler]].data[0] = battler;
         }
@@ -352,19 +351,19 @@ void CreateBattlerSprite(enum BattlerId battler)
         {
             if (isFrlg)
             {
-                SetMultiuseSpriteTemplateToTrainerBack(TRAINER_PIC_BACK_OLD_MAN, position);
+                SetMultiuseSpriteTemplateToTrainerBack(TRAINER_PIC_OLD_MAN, position);
                 gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, 0x50,
-                                                    (8 - gTrainerBacksprites[TRAINER_PIC_BACK_OLD_MAN].coordinates.size) * 4 + 80,
+                                                    (8 - GetTrainerBackPicCoords(TRAINER_PIC_OLD_MAN)->size) * 4 + 80,
                                                     GetBattlerSpriteSubpriority(0));
-                gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(gTrainerBacksprites[TRAINER_PIC_BACK_OLD_MAN].palette.tag);
+                gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(GetTrainerPicTag(TRAINER_PIC_OLD_MAN, FALSE));
             }
             else
             {
-                SetMultiuseSpriteTemplateToTrainerBack(TRAINER_PIC_BACK_WALLY, position);
+                SetMultiuseSpriteTemplateToTrainerBack(TRAINER_PIC_WALLY, position);
                 gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, 0x50,
-                                                    (8 - gTrainerBacksprites[TRAINER_PIC_BACK_WALLY].coordinates.size) * 4 + 80,
+                                                    (8 - GetTrainerBackPicCoords(TRAINER_PIC_WALLY)->size) * 4 + 80,
                                                     GetBattlerSpriteSubpriority(0));
-                gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(gTrainerBacksprites[TRAINER_PIC_BACK_WALLY].palette.tag);
+                gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(GetTrainerPicTag(TRAINER_PIC_WALLY, FALSE));
             }
             gSprites[gBattlerSpriteIds[battler]].callback = SpriteCallbackDummy;
             gSprites[gBattlerSpriteIds[battler]].data[0] = battler;
@@ -374,7 +373,10 @@ void CreateBattlerSprite(enum BattlerId battler)
             struct Pokemon *mon = GetBattlerMon(battler);
             if (!IsValidForBattle(mon))
                 return;
-            u32 species = GetMonData(mon, MON_DATA_SPECIES);
+            if (gBattleStruct->battlerState[battler].notOnField) // Don't create sprite for a mon that has switched out
+                return;
+
+            enum Species species = GetMonData(mon, MON_DATA_SPECIES);
 
             SetMultiuseSpriteTemplateToPokemon(species, position);
             gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2), posY, GetBattlerSpriteSubpriority(battler));
