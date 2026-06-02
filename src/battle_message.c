@@ -2406,6 +2406,8 @@ static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
 
 static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
 
+static const u8 sText_OldManUsedItem[] = _("The OLD MAN used {B_LAST_ITEM}!");
+
 void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
 {
     s32 i;
@@ -2881,6 +2883,11 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         break;
     case STRINGID_TRAINERSLIDE:
         stringPtr = gBattleStruct->trainerSlideMsg;
+        break;
+    case STRINGID_WALLYUSEDITEM:
+        // The FRLG catching tutorial reuses Wally's ball-throw script; in Kanto the
+        // demonstrator is the old man, not Wally (#22). Hoenn keeps "WALLY used ...".
+        stringPtr = isFrlg ? sText_OldManUsedItem : gBattleStringsTable[STRINGID_WALLYUSEDITEM];
         break;
     default: // load a string from the table
         if (stringID >= STRINGID_COUNT)

@@ -1812,7 +1812,11 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     struct SpritePalette palette = {sRegionMapPlayerIcon_BrendanPal, paletteTag};
     struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, sRegionMapPlayerIconAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
 
-    if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId))
+    // On a forced-flight map (Flight Call showing a region the player isn't standing in) the
+    // "you are here" icon would be parked on that region's first heal point with the wrong-region
+    // sprite, e.g. flying from Hoenn shows the player sitting on Pallet Town (#30). Suppress it,
+    // same as for event islands.
+    if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId) || sUseForcedFlightRegion)
     {
         sRegionMap->playerIconSprite = NULL;
         return;
