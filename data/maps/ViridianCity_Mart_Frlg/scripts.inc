@@ -17,6 +17,12 @@ ViridianCity_Mart_OnFrame::
 	.2byte 0
 
 ViridianCity_Mart_EventScript_ParcelScene::
+	@ Don't hand over Oak's Parcel until the player has actually been through Oak's Lab
+	@ and finished the starter/rival scene (VAR_..._OAKS_LAB reaches 4). Crossroads adds a
+	@ cross-region Pokemon Center door, so the player can reach Viridian before the Pallet
+	@ intro; firing this early gives the parcel before the starter and corrupts the order (#17).
+	@ The scene var stays 0 here, so it re-arms and fires correctly once the lab scene advances.
+	goto_if_lt VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 4, ViridianCity_Mart_EventScript_ParcelSceneNotReady
 	lockall
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_VIRIDIAN_MART_CLERK, Common_Movement_WalkInPlaceFasterDown
@@ -31,6 +37,9 @@ ViridianCity_Mart_EventScript_ParcelScene::
 	giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
 	releaseall
+	end
+
+ViridianCity_Mart_EventScript_ParcelSceneNotReady::
 	end
 
 ViridianCity_Mart_Movement_ApproachCounter::

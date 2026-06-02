@@ -18,7 +18,16 @@ PalletTown_PlayersHouse_2F_OnWarp::
 PalletTown_PlayersHouse_2F_FirstWarpIn::
 	turnobject LOCALID_PLAYER, DIR_NORTH
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F, 1
+	@ Only run the Littleroot-style intro setup for a genuine Kanto-first start (rival arc
+	@ not started yet). A Hoenn-first player who has already met the rival (RIVAL_STATE >= 3)
+	@ and then crosses into Kanto must NOT re-run this: it clears the Littleroot bedroom
+	@ "hide May" flag and rolls VAR_LITTLEROOT_RIVAL_STATE back to 3, so May reappears in the
+	@ Littleroot bedroom and softlocks the room (#7).
+	goto_if_ge VAR_LITTLEROOT_RIVAL_STATE, 3, PalletTown_PlayersHouse_2F_EventScript_SkipIntroSetup
 	goto_if_unset VAR_LITTLEROOT_INTRO_STATE, PalletTown_PlayersHouse_2F_EventScript_SetIntroFlags
+	end
+
+PalletTown_PlayersHouse_2F_EventScript_SkipIntroSetup::
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_NES::
