@@ -1,7 +1,11 @@
 #ifndef GUARD_POKEMON_STORAGE_SYSTEM_H
 #define GUARD_POKEMON_STORAGE_SYSTEM_H
 
-#define TOTAL_BOXES_COUNT       14
+// Reduced from 14 to 13 so struct PokemonStorage fits in 8 flash sectors instead of 9.
+// That keeps NUM_SECTORS_PER_SLOT at 14 and SECTORS_COUNT at 32 (the chip's physical
+// limit); at 14 boxes the save layout needed 34 logical sectors and aliased flash bank 0,
+// silently corrupting PC storage. See include/save.h and src/save.c STATIC_ASSERTs.
+#define TOTAL_BOXES_COUNT       13
 #define IN_BOX_ROWS             5 // Number of rows, 6 Pokémon per row
 #define IN_BOX_COLUMNS          6 // Number of columns, 5 Pokémon per column
 #define IN_BOX_COUNT            (IN_BOX_ROWS * IN_BOX_COLUMNS)
