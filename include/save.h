@@ -20,14 +20,20 @@
 #define SECTOR_ID_SAVEBLOCK1_START    1
 #define SECTOR_ID_SAVEBLOCK1_END      5
 #define SECTOR_ID_PKMN_STORAGE_START  6
-#define SECTOR_ID_PKMN_STORAGE_END   14
-#define NUM_SECTORS_PER_SLOT         15
-// Save Slot 1: 0-14;  Save Slot 2: 15-29
-#define SECTOR_ID_HOF_1              30
-#define SECTOR_ID_HOF_2              31
-#define SECTOR_ID_TRAINER_HILL       32
-#define SECTOR_ID_RECORDED_BATTLE    33
-#define SECTORS_COUNT                34
+#define SECTOR_ID_PKMN_STORAGE_END   13
+#define NUM_SECTORS_PER_SLOT         14
+// Save Slot 1: 0-13;  Save Slot 2: 14-27
+#define SECTOR_ID_HOF_1              28
+#define SECTOR_ID_HOF_2              29
+#define SECTOR_ID_TRAINER_HILL       30
+#define SECTOR_ID_RECORDED_BATTLE    31
+#define SECTORS_COUNT                32
+
+// The save flash is 1 Mbit = 32 physical 4 KiB sectors (SECTORS_PER_BANK * 2 banks).
+// Logical sector N is accessed as bank (N / 16), physical (N % 16); with only two
+// banks any logical sector >= 32 silently aliases bank 0 and overwrites SaveBlock
+// data, corrupting the save (this is what wiped PC boxes). Keep SECTORS_COUNT below.
+#define MAX_PHYSICAL_SECTORS         32
 
 #define NUM_HOF_SECTORS 2
 
