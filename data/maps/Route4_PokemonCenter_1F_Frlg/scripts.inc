@@ -70,6 +70,10 @@ Route4_PokemonCenter_1F_EventScript_BuyMagikarpPC::
 	goto_if_eq VAR_RESULT, NO, Route4_PokemonCenter_1F_EventScript_TransferMagikarpCloseMoneyBox
 	fadescreen FADE_TO_BLACK
 	hidemoneybox
+	@ Magikarp went to the PC (party was full). Point the nickname at that boxed mon
+	@ (its box/pos are already in gSpecialVar_MonBoxId/Pos from the deposit); without this
+	@ ChangePokemonNickname renames a stale PARTY slot instead -- the "renamed my Mankey" bug (#18).
+	setvar VAR_0x8004, PC_MON_CHOSEN
 	special ChangePokemonNickname
 	waitstate
 	lock
